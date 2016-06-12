@@ -1,6 +1,7 @@
 // tag::imports[]
 import {Component} from 'angular2/core';
 import FooterComponent from 'app/components/footer/footer';
+import SearchComponent from 'app/components/search/search';
 // end::imports[]
 
 // tag::annotation-component[]
@@ -9,7 +10,8 @@ import FooterComponent from 'app/components/footer/footer';
   providers: [],
   templateUrl: 'app/components/application/application.html', // <3>
   styleUrls: ['app/components/application/application.css'], // <4>
-  directives: [FooterComponent]
+  directives: [FooterComponent,
+  SearchComponent]
 })
 // end::annotation-component[]
 // tag::class[]
