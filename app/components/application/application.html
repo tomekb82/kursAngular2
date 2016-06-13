@@ -1,11 +1,11 @@
-<div class="nav">Nawigacja</div>
+<photo-nav></photo-nav>
 
 <div class="container">
   <div class="row">
     <!-- Left column contains only search form the style col-md-3 comes from
     Twitter Bootstrap grid system-->
-    <div class="col-md-3 menu">
-      Menu
+    <div class="col-md-3">
+      <photo-search></photo-search>
     </div>
 
     <!--
@@ -15,11 +15,8 @@
     -->
     <div class="col-md-9">
       <div class="row carousel-holder">
-        <div class="col-md-9 carousel">
-          Karuzela zdjęć
-        </div>
-        <div class="col-md-3 search">
-          <photo-search></photo-search>
+        <div class="col-md-12 carousel">
+          <photo-carousel></photo-carousel>
         </div>
       </div>
       <div class="row photoList">

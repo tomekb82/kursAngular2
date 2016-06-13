@@ -4,4 +4,8 @@ import {Component} from 'angular2/core';
   selector: 'photo-search',
   templateUrl: 'app/components/search/search.html'
 })
-export default class SearchComponent {}
+export default class SearchComponent {
+
+	
+
+}
