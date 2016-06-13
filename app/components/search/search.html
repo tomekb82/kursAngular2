@@ -1,12 +1,12 @@
 <form name="searchForm" role="form">
   <div class="form-group">
     <label for="photoTitle">Title:</label>
-    <input type="text" name="photoTitle"
+    <input type="text" name="photoTitle" log-directive
            placeholder="Title" class="form-control">
   </div>
   <div class="form-group">
     <label for="photoYear">Year:</label>
-    <input id="photoYear"
+    <input id="photoYear" log-directive
            name="photoYear"
            type="number" min="0" step="any"
            placeholder="Year" class="form-control">
@@ -18,7 +18,7 @@
   </div>
   <div class="form-group">
     <label for="photoCategory">Category:</label>
-    <select id="photoCategory" class="form-control" ngControl="category" >
+    <select id="photoCategory" class="form-control" ngControl="category" log-directive>
       <option value="">All categories</option>
       <option *ngFor="#c of categories"
               [value]="c">{{c}}</option>
