@@ -1,0 +1,11 @@
+<div class="thumbnail">
+  <img src="http://placehold.it/320x150">
+  <div class="caption">
+    <h4 class="pull-right">{{ photo.year }}</h4>
+    <h4><a [routerLink]="['/PhotoDetail', {'photoTitle': photo.title}]">{{ photo.title }}</a></h4>
+    <p>{{ photo.description }}</p>
+  </div>
+  <hr>
+  <photo-stars [rating]="photo.rating"></photo-stars> 
+  <i> Categories: {{photo.categories }}</i>
+</div>

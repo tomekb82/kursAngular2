@@ -1,35 +1,36 @@
 // tag::imports[]
 import {Component} from 'angular2/core';
-import FooterComponent from 'app/components/footer/footer';
-import SearchComponent from 'app/components/search/search';
-import CarouselComponent from 'app/components/carousel/carousel';
-import NavbarComponent from 'app/components/navbar/navbar';
-import PhotoItemComponent from 'app/components/photo-item/photo-item';
-import {Photo, PhotoService} from 'app/services/photo-service';
+import {Route, RouteConfig, RouterOutlet} from 'angular2/router';
+
+import FooterComponent from '../footer/footer';
+import SearchComponent from '../search/search';
+import NavbarComponent from '../navbar/navbar';
+import HomeComponent from '../home/home';
+import PhotoDetailComponent from "../photo-detail/photo-detail";
+
 
 // end::imports[]
 
 // tag::annotation-component[]
 @Component({
   selector: 'photo-app', // <1>
-  providers: [PhotoService],
   templateUrl: 'app/components/application/application.html', // <3>
   styleUrls: ['app/components/application/application.css'], // <4>
   directives: [
+   RouterOutlet,
    FooterComponent,
    SearchComponent,
-   CarouselComponent,
    NavbarComponent,
-   PhotoItemComponent]
+   HomeComponent,
+   PhotoDetailComponent]
 })
+@RouteConfig([
+  {path: '/', component: HomeComponent, as: 'Home'},
+  {path: '/photos/:photoTitle', component: PhotoDetailComponent, as: 'PhotoDetail'}
+])
 // end::annotation-component[]
 // tag::class[]
 export default class ApplicationComponent {
   
-  photos: Array<Photo> = []; // <1>
-
-  constructor(private photoService: PhotoService) { // <2>
-    this.photos = this.photoService.getPhotos(); // <3>
-  }
 }
 // end::class[]

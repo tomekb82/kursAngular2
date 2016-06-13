@@ -14,17 +14,7 @@
       2. Second one has a grid with photos.
     -->
     <div class="col-md-9">
-      <div class="row carousel-holder">
-        <div class="col-md-12 carousel">
-          <photo-carousel></photo-carousel>
-        </div>
-      </div>
-      <div class="row ">
-        <div *ngFor="#photo of photos" class="col-sm-4 col-lg-4 col-md-4">
-          <photo-item [photo]="photo"></photo-item>
-        </div>
-      </div>
-    </div>
+      <router-outlet></router-outlet>
   </div>
 </div>
 
