@@ -4,27 +4,32 @@ import FooterComponent from 'app/components/footer/footer';
 import SearchComponent from 'app/components/search/search';
 import CarouselComponent from 'app/components/carousel/carousel';
 import NavbarComponent from 'app/components/navbar/navbar';
+import PhotoItemComponent from 'app/components/photo-item/photo-item';
+import {Photo, PhotoService} from 'app/services/photo-service';
 
 // end::imports[]
 
 // tag::annotation-component[]
 @Component({
   selector: 'photo-app', // <1>
-  providers: [],
+  providers: [PhotoService],
   templateUrl: 'app/components/application/application.html', // <3>
   styleUrls: ['app/components/application/application.css'], // <4>
   directives: [
    FooterComponent,
    SearchComponent,
    CarouselComponent,
-   NavbarComponent]
+   NavbarComponent,
+   PhotoItemComponent]
 })
 // end::annotation-component[]
 // tag::class[]
 export default class ApplicationComponent {
   
-  constructor() { // <2>
-    
+  photos: Array<Photo> = []; // <1>
+
+  constructor(private photoService: PhotoService) { // <2>
+    this.photos = this.photoService.getPhotos(); // <3>
   }
 }
 // end::class[]

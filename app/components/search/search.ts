@@ -6,6 +6,12 @@ import {Component} from 'angular2/core';
 })
 export default class SearchComponent {
 
-	
+	categories: string[];
+
+	constructor() {
+    	this.categories = ['a', 'b', 'c', 'd'];
+
+   	}
+
 
 }
