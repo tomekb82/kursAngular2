@@ -1,5 +1,5 @@
 import {Component, Input} from 'angular2/core';
-import {RouterLink} from 'angular2/router';
+import {RouterLink, RouteParams} from 'angular2/router';
 
 import {Photo} from '../../services/photo-service';
 import StarsComponent from '../stars/stars';
@@ -14,6 +14,9 @@ import StarsComponent from '../stars/stars';
   styleUrls: ['app/components/photo-item/photo-item.css'],
   directives: [RouterLink, StarsComponent]
 })
+
 export default class PhotoItemComponent {
   @Input() photo: Photo;
 }
+
+
