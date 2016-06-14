@@ -32,7 +32,11 @@ import PhotoDetailComponent from "../photo-detail/photo-detail";
   {path: '/photos/:photoTitle/...', component: PhotoDetailComponent, as: 'PhotoDetail' , data:{isProd: true}},
 
   {path: '/contact', component: ContactComponent, as: 'Contact'},
-  {aux: '/chat', component: ChatComponent, as: 'Chat'}
+  {aux: '/chat', component: ChatComponent, as: 'Chat'},
+
+  {path:'/about',  loader: ()=> System.import('app/components/about/about')
+                   .then(libModule => libModule.AboutComponent),
+                   as: 'About'}
 ])
 // end::annotation-component[]
 // tag::class[]

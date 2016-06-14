@@ -61,7 +61,6 @@ export default class PhotoDetailComponent {
 
   toggleValue = function(){
     this.showParams = !this.showParams;
-    console.log("DDDDDDDDDDDDDDDDDD");
   }
   constructor(params: RouteParams, data: RouteData){
     this.photoTitle = params.get('photoTitle');
