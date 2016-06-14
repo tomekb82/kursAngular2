@@ -29,7 +29,7 @@ import PhotoDetailComponent from "../photo-detail/photo-detail";
 })
 @RouteConfig([
   {path: '/', component: HomeComponent, as: 'Home'},
-  {path: '/photos/:photoTitle/...', component: PhotoDetailComponent, as: 'PhotoDetail' , data:{isProd: true}},
+  {path: '/photos/:photoId/...', component: PhotoDetailComponent, as: 'PhotoDetail' , data:{isProd: true}},
 
   {path: '/contact', component: ContactComponent, as: 'Contact'},
   {aux: '/chat', component: ChatComponent, as: 'Chat'},

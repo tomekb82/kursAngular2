@@ -1,5 +1,7 @@
-import {Component, ViewEncapsulation} from 'angular2/core';
+import {Component, ViewEncapsulation, bind, provide} from 'angular2/core';
 import {RouteConfig,  ROUTER_DIRECTIVES, RouteParams, RouteData} from 'angular2/router';
+import {Photo, PhotoService, MockPhotoService} from '../../services/photo-service';
+import StarsComponent from '../stars/stars';
 
 //uwaga: nie dziala jak jest dolaczone w osobnym pliku
 //import PhotoDescriptionComponent from './photo-detail';
@@ -28,16 +30,22 @@ export class PhotoParametersComponent {
 
 @Component({
   selector: 'photo-detail-page',
+  providers: [PhotoService],
+  //providers: [provide(PhotoService, {useClass: MockPhotoService})], // mock
   template: `
     <div>
-      <h3 class="env-{{type}}">{{photoTitle}}</h3>
+      <h3 class="env-{{type}}">{{photo.title}}</h3>
       <hr>
       <img src="http://placehold.it/820x320">
-      <!--<p>{{ photo.description }}</p>
+      <b>Description:</b>
+      <p>{{ photo.description }}</p>
+      
+      <div class="pull-right"> 
+        <photo-stars [rating]="photo.rating"></photo-stars> 
+      </div>
+      <b>Categories: </b> <i>{{photo.categories }}</i>
+
       <hr>
-      <i> Categories: {{photo.categories }}</i>-->
-
-
       <router-outlet></router-outlet>
       <p>
    
@@ -47,7 +55,7 @@ export class PhotoParametersComponent {
     </div>
   `,
   styles: ['.env-prod {background: #286090; color: white;} .env-dev {background: red}'],
-  directives: [ROUTER_DIRECTIVES, PhotoDescriptionComponent, PhotoParametersComponent]
+  directives: [ROUTER_DIRECTIVES, PhotoDescriptionComponent, PhotoParametersComponent, StarsComponent]
 })
 @RouteConfig([
     {path: '/', component: PhotoDescriptionComponent, as: 'PhotoDescription'  },
@@ -55,19 +63,21 @@ export class PhotoParametersComponent {
   //  {path: '/photoParameters', component: PhotoParametersComponent, as: 'PhotoParameters'  }
 ])
 export default class PhotoDetailComponent {
-  photoTitle: string;
+  photoId: number;
+  photo: Photo;
   type: string = "dev";
   showParams = true;
 
   toggleValue = function(){
     this.showParams = !this.showParams;
   }
-  constructor(params: RouteParams, data: RouteData){
-    this.photoTitle = params.get('photoTitle');
-
+  constructor(params: RouteParams, data: RouteData, private photoService: PhotoService){
     if(data.get('isProd')){
       this.type = "prod";
     }
+
+    this.photoId = params.get('photoId');
+    this.photo = photoService.getPhoto(this.photoId);
   }
 }
 

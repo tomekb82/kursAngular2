@@ -10,8 +10,29 @@ export class Photo {
 }
 
 export class PhotoService {
+  getPhoto(id): Photo {
+    // Code making an HTTP request to get actual photo details
+    // would go here
+    for(var i=0; i < photos.length; i++){
+      if(photos[i].id == id){
+         return photos[i];
+      }
+    }
+    return null;
+  }
   getPhotos(): Array<Photo> {
     return photos.map(p => new Photo(p.id, p.title, p.year, p.rating, p.description, p.categories));
+  }
+}
+
+// Another service version implements the initial one as interface.
+export class MockPhotoService implements PhotoService { // <2>
+  getPhoto(id): Photo {
+    // Code making an HTTP request to get actual photo details
+    // would go here
+    return new Photo(0, "Mock Photo", 2015, 5.6, 
+      "This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      ["home"]);
   }
 }
 
