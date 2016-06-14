@@ -6,6 +6,7 @@ import FooterComponent from '../footer/footer';
 import SearchComponent from '../search/search';
 import NavbarComponent from '../navbar/navbar';
 import HomeComponent from '../home/home';
+import {ContactComponent, ChatComponent} from '../contact/contact';
 import PhotoDetailComponent from "../photo-detail/photo-detail";
 
 
@@ -22,11 +23,16 @@ import PhotoDetailComponent from "../photo-detail/photo-detail";
    SearchComponent,
    NavbarComponent,
    HomeComponent,
-   PhotoDetailComponent]
+   PhotoDetailComponent,
+   ContactComponent,
+   ChatComponent]
 })
 @RouteConfig([
   {path: '/', component: HomeComponent, as: 'Home'},
-  {path: '/photos/:photoTitle', component: PhotoDetailComponent, as: 'PhotoDetail' , data:{isProd: true}
+  {path: '/photos/:photoTitle', component: PhotoDetailComponent, as: 'PhotoDetail' , data:{isProd: true}},
+
+  {path: '/contact', component: ContactComponent, as: 'Contact'},
+  {aux: '/chat', component: ChatComponent, as: 'Chat'}
 ])
 // end::annotation-component[]
 // tag::class[]

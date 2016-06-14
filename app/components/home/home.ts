@@ -17,6 +17,7 @@ import {Photo, PhotoService} from '../../services/photo-service';
         <photo-carousel></photo-carousel>
       </div>
     </div>
+    <hr>
     <div class="row">
       <div *ngFor="#photo of photos" class="col-sm-4 col-lg-4 col-md-4">
         <photo-item [photo]="photo"></photo-item>
