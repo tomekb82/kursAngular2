@@ -26,7 +26,7 @@ import PhotoDetailComponent from "../photo-detail/photo-detail";
 })
 @RouteConfig([
   {path: '/', component: HomeComponent, as: 'Home'},
-  {path: '/photos/:photoTitle', component: PhotoDetailComponent, as: 'PhotoDetail'}
+  {path: '/photos/:photoTitle', component: PhotoDetailComponent, as: 'PhotoDetail' , data:{isProd: true}
 ])
 // end::annotation-component[]
 // tag::class[]
