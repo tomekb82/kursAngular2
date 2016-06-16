@@ -42,7 +42,7 @@ export class PhotoParametersComponent {
   template: `
     <div class="thumbnail">
       <h4 class="pull-right env-{{type}}">{{ photo.year }}</h4>
-      <h4 class="env-{{type}}">{{photo.title}}</h4>
+      <h3 class="env-{{type}}">{{photo.title}}</h3>
       <hr>
       <img src="http://placehold.it/820x320">
       <b>Description:</b>
