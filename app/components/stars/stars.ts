@@ -3,6 +3,7 @@ import {Component,  Input, OnInit} from 'angular2/core'; // <1>
 @Component({
   templateUrl: 'app/components/stars/stars.html',
   styles: [` .starrating { color: #d17581; }`],
+  // inputs: ['rating', 'count']   // zamiast @Input
   selector: 'photo-stars'
 })
 export default class StarsComponent implements OnInit {

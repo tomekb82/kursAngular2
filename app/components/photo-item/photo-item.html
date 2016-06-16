@@ -6,6 +6,8 @@
     <p>{{ photo.description }}</p>
   </div>
   <hr>
-  <photo-stars [rating]="photo.rating"></photo-stars> 
+  <div class="ratings">
+  	<photo-stars [rating]="photo.rating"></photo-stars> 
+  </div>
   <i> Categories: {{photo.categories }}</i>
 </div>

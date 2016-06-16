@@ -1,3 +1,6 @@
+
+import {bind} from 'angular2/core';
+
 export class Photo {
   constructor(
     public id: number,
@@ -9,20 +12,30 @@ export class Photo {
   }
 }
 
-export class PhotoService {
-  getPhoto(id): Photo {
-    // Code making an HTTP request to get actual photo details
-    // would go here
-    for(var i=0; i < photos.length; i++){
-      if(photos[i].id == id){
-         return photos[i];
-      }
-    }
-    return null;
+export class Review {
+  constructor(
+      public id: number,
+      public photoId: number,
+      public timestamp: Date,
+      public user: string,
+      public rating: number,
+      public comment: string) {
   }
-  getPhotos(): Array<Photo> {
+}
+
+export class PhotoService {
+  getPhotos(): Photo[] {
     return photos.map(p => new Photo(p.id, p.title, p.year, p.rating, p.description, p.categories));
   }
+  getPhoto(photoId: number): Photo {
+    return photos.find(p => p.id === photoId);
+  }
+  getReviewsForPhoto(photoId: number): Review[] {
+    return reviews
+        .filter(r => r.photoId === photoId)
+        .map(r => new Review(r.id, r.photoId, new Date(r.timestamp), r.user, r.rating, r.comment));
+  }
+ 
 }
 
 // Another service version implements the initial one as interface.
@@ -33,6 +46,14 @@ export class MockPhotoService implements PhotoService { // <2>
     return new Photo(0, "Mock Photo", 2015, 5.6, 
       "This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       ["home"]);
+  }
+  getPhotos(): Photo[] {
+    return photos.map(p => new Photo(p.id, p.title, p.year, p.rating, p.description, p.categories));
+  }
+  getReviewsForPhoto(photoId: number): Review[] {
+    return reviews
+        .filter(r => r.photoId === photoId)
+        .map(r => new Review(r.id, r.photoId, new Date(r.timestamp), r.user, r.rating, r.comment));
   }
 }
 
@@ -84,5 +105,56 @@ var photos = [
     "rating": 4.6,
     "description": "This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     "categories": ["walk"]
+  }
+];
+
+var reviews = [
+  {
+    "id": 0,
+    "photoId": 0,
+    "timestamp": "2014-05-20T02:17:00+00:00",
+    "user": "User 1",
+    "rating": 5,
+    "comment": "Aenean vestibulum velit id placerat posuere. Praesent placerat mi ut massa tempor, sed rutrum metus rutrum. Fusce lacinia blandit ligula eu cursus. Proin in lobortis mi. Praesent pellentesque auctor dictum. Nunc volutpat id nibh quis malesuada. Curabitur tincidunt luctus leo, quis condimentum mi aliquet eu. Vivamus eros metus, convallis eget rutrum nec, ultrices quis mauris. Praesent non lectus nec dui venenatis pretium."
+  },
+  {
+    "id": 1,
+    "photoId": 0,
+    "timestamp": "2014-05-20T02:53:00+00:00",
+    "user": "User 2",
+    "rating": 3,
+    "comment": "Aenean vestibulum velit id placerat posuere. Praesent placerat mi ut massa tempor, sed rutrum metus rutrum. Fusce lacinia blandit ligula eu cursus. Proin in lobortis mi. Praesent pellentesque auctor dictum. Nunc volutpat id nibh quis malesuada. Curabitur tincidunt luctus leo, quis condimentum mi aliquet eu. Vivamus eros metus, convallis eget rutrum nec, ultrices quis mauris. Praesent non lectus nec dui venenatis pretium."
+  },
+  {
+    "id": 2,
+    "photoId": 0,
+    "timestamp": "2014-05-20T05:26:00+00:00",
+    "user": "User 3",
+    "rating": 4,
+    "comment": "Aenean vestibulum velit id placerat posuere. Praesent placerat mi ut massa tempor, sed rutrum metus rutrum. Fusce lacinia blandit ligula eu cursus. Proin in lobortis mi. Praesent pellentesque auctor dictum. Nunc volutpat id nibh quis malesuada. Curabitur tincidunt luctus leo, quis condimentum mi aliquet eu. Vivamus eros metus, convallis eget rutrum nec, ultrices quis mauris. Praesent non lectus nec dui venenatis pretium."
+  },
+  {
+    "id": 3,
+    "photoId": 0,
+    "timestamp": "2014-05-20T07:20:00+00:00",
+    "user": "User 4",
+    "rating": 4,
+    "comment": "Aenean vestibulum velit id placerat posuere. Praesent placerat mi ut massa tempor, sed rutrum metus rutrum. Fusce lacinia blandit ligula eu cursus. Proin in lobortis mi. Praesent pellentesque auctor dictum. Nunc volutpat id nibh quis malesuada. Curabitur tincidunt luctus leo, quis condimentum mi aliquet eu. Vivamus eros metus, convallis eget rutrum nec, ultrices quis mauris. Praesent non lectus nec dui venenatis pretium."
+  },
+  {
+    "id": 4,
+    "photoId": 0,
+    "timestamp": "2014-05-20T11:35:00+00:00",
+    "user": "User 5",
+    "rating": 5,
+    "comment": "Aenean vestibulum velit id placerat posuere. Praesent placerat mi ut massa tempor, sed rutrum metus rutrum. Fusce lacinia blandit ligula eu cursus. Proin in lobortis mi. Praesent pellentesque auctor dictum. Nunc volutpat id nibh quis malesuada. Curabitur tincidunt luctus leo, quis condimentum mi aliquet eu. Vivamus eros metus, convallis eget rutrum nec, ultrices quis mauris. Praesent non lectus nec dui venenatis pretium."
+  },
+  {
+    "id": 5,
+    "photoId": 0,
+    "timestamp": "2014-05-20T11:42:00+00:00",
+    "user": "User 6",
+    "rating": 5,
+    "comment": "Aenean vestibulum velit id placerat posuere. Praesent placerat mi ut massa tempor, sed rutrum metus rutrum. Fusce lacinia blandit ligula eu cursus. Proin in lobortis mi. Praesent pellentesque auctor dictum. Nunc volutpat id nibh quis malesuada. Curabitur tincidunt luctus leo, quis condimentum mi aliquet eu. Vivamus eros metus, convallis eget rutrum nec, ultrices quis mauris. Praesent non lectus nec dui venenatis pretium."
   }
 ];

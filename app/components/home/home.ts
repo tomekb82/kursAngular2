@@ -1,11 +1,11 @@
 import {Component} from 'angular2/core';
 import CarouselComponent from '../carousel/carousel';
 import PhotoItemComponent from '../photo-item/photo-item';
-import {Photo, PhotoService} from '../../services/photo-service';
+import {Photo, PhotoService, MockPhotoService} from '../../services/photo-service';
 
 @Component({
   selector: 'photo-home-page',
-  providers: [PhotoService],
+  //providers: [PhotoService],
   directives: [
     CarouselComponent,
     PhotoItemComponent
