@@ -4,6 +4,6 @@ import {Component} from 'angular2/core';
     selector: 'photo-description',
     template: '<p></p>This is a great photo!'
 })
-export class PhotoDescriptionComponent {
+export default class PhotoDescriptionComponent {
 
 }

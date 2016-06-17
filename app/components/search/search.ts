@@ -40,8 +40,6 @@ export default class SearchComponent {
 
 	searchTextarea: string = ""
 
-  isDev: boolean;
- 
   onInputSearchTitleEvent(event: Event): void {
    	let inputElement: HTMLInputElement = <HTMLInputElement> event.target;
 
@@ -50,11 +48,8 @@ export default class SearchComponent {
    	this.searchTextarea += "\nThe title property value =" + this.searchTitle;
   }
 
-	constructor(@Inject('IS_DEV_ENVIRONMENT') private isDevEnv: boolean) {
+	constructor(@Inject('IS_DEV_ENVIRONMENT') private isDev: boolean) {
    	this.categories = ['a', 'b', 'c', 'd'];
-    this.isDev = isDevEnv;
-    console.log("iddev=" + this.isDev);
-    
   }
     
 }

@@ -1,11 +1,12 @@
-import {Component, ViewEncapsulation, bind, provide} from 'angular2/core';
+import {Component, ViewEncapsulation, bind, provide, Inject, Directive, Output, EventEmitter} from 'angular2/core';
 import {RouteConfig,  ROUTER_DIRECTIVES, RouteParams, RouteData} from 'angular2/router';
 import {Photo, Review, PhotoService, MockPhotoService} from '../../services/photo-service';
 import StarsComponent from '../stars/stars';
 
 //uwaga: nie dziala jak jest dolaczone w osobnym pliku
-//import PhotoDescriptionComponent from './photo-detail';
-//import PhotoParametersComponent from './photo-detail';
+//import PhotoDescriptionComponent from '../photo-detail/photo-description';
+//import PhotoParametersComponent from '../photo-detail/photo-parameters';
+
 
 @Component({
     selector: 'photo-description',
@@ -15,17 +16,59 @@ export class PhotoDescriptionComponent {
 
 }
 
+interface IPhotoParamaters {
+    focus: number,
+    zoom: number,
+    pixels: number
+}
+
+@Directive({
+    selector: 'photo-params',
+})
+class PhotoParameterDirective {
+    @Output('generated-params') photoEmitter: EventEmitter <IPhotoParamaters> = new EventEmitter();
+
+    constructor() {
+        setInterval(() => {
+
+            let photoParams: IPhotoParamaters = {
+         focus: (100*Math.random()).toFixed(2),
+         zoom: (100*Math.random()).toFixed(2),
+                pixels: (100*Math.random()).toFixed(2)
+            };
+
+            this.photoEmitter.emit(photoParams)
+        }, 1000);
+    }
+}
+
 @Component({
     selector: 'photo-parameters',
-    template: '<p class="params">id= {{photoID}}, Przesłona: XXX, Migawka: xxx </p>',
+    template: `<div> <b> Parameters:</b>
+    - focus = {{focus}}
+    - zoom = {{zoom}}
+    - pixels = {{pixels}}
+    </div>
+    <photo-params (generated-params)="photoParamsHandler($event)"> </photo-params>
+    `,
     styles: ['.params {background: yellow}'],
+    directives: [PhotoParameterDirective],
     encapsulation: ViewEncapsulation.None
 })
-export class PhotoParametersComponent {
-   photoID: string;
-   constructor(params: RouteParams){
-        this.photoID = params.get('photoId');
+export default class PhotoParametersComponent {
+   focus: number;
+   zoom: number;
+   pixels: number;
+   
+   constructor(){
+        
    }
+
+   photoParamsHandler(event:IPhotoParamaters) {
+      this.focus = event.focus;
+      this.zoom = event.zoom;
+      this.pixels = event.pixels;
+    }
 }
 
 @Component({
@@ -56,11 +99,13 @@ export class PhotoParametersComponent {
       <b>Categories: </b> <i>{{photo.categories }}</i>
 
       <hr>
-      <router-outlet></router-outlet>
-      <p>
-   
-      <a *ngIf="!showParams" (click)="toggleValue()" [routerLink]="[ './PhotoParameters', {photoId:123}]">Show parameters</a>
-      <a *ngIf="showParams" (click)="toggleValue()" [routerLink]="[ './PhotoDescription']">Hide parameters</a>
+      <div *ngIf="isDev">
+        <a *ngIf="!showParams" (click)="toggleValue()" [routerLink]="[ './PhotoParameters']">Show random parameters</a>
+        <a *ngIf="showParams" (click)="toggleValue()" [routerLink]="[ './PhotoDescription']">Hide parameters</a>
+        <pre>
+          <router-outlet></router-outlet>  
+        </pre>
+      </div>  
     </div>
     <div class="well" id="reviews-anchor">
       <div class="row">
@@ -81,19 +126,19 @@ export class PhotoParametersComponent {
   directives: [ROUTER_DIRECTIVES, PhotoDescriptionComponent, PhotoParametersComponent, StarsComponent]
 })
 @RouteConfig([
-    {path: '/', component: PhotoDescriptionComponent, as: 'PhotoDescription'  },
-    {path: '/photoParameters/:photoId', component: PhotoParametersComponent, as: 'PhotoParameters'  }
+    {path: '/', component: PhotoParametersComponent , as: 'PhotoParameters'  },
+    {path: '/description', component: PhotoDescriptionComponent, as: 'PhotoDescription'  }
 ])
 export default class PhotoDetailComponent {
   photo: Photo;
   reviews: Review[];
   type: string = "dev";
-  showParams = true;
+  showParams = false;
 
   toggleValue = function(){
     this.showParams = !this.showParams;
   }
-  constructor(params: RouteParams, data: RouteData, private photoService: PhotoService){
+  constructor(params: RouteParams, data: RouteData, private photoService: PhotoService, @Inject('IS_DEV_ENVIRONMENT') private isDev: boolean){
     if(data.get('isProd')){
       this.type = "prod";
     }
