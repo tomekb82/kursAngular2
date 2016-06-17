@@ -44,7 +44,7 @@ class PhotoParameterDirective {
 
 @Component({
     selector: 'photo-parameters',
-    template: `<div> <b> Parameters:</b>
+    template: `<div> <b> Parameters (Output binding):</b>
     - focus = {{focus}}
     - zoom = {{zoom}}
     - pixels = {{pixels}}
@@ -59,7 +59,7 @@ export default class PhotoParametersComponent {
    focus: number;
    zoom: number;
    pixels: number;
-   
+
    constructor(){
         
    }

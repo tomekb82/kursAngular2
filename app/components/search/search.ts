@@ -1,4 +1,6 @@
 import {Component, Input, Inject} from 'angular2/core';
+import {Control, ControlGroup, FORM_DIRECTIVES} from 'angular2/common';
+import 'rxjs/add/operator/debounceTime';
 import LogDirective from 'app/directives/logging';
 
 @Component({
@@ -34,6 +36,8 @@ class SearchProcessorComponent {
 export default class SearchComponent {
 
 	categories: string[];
+  searchCategory: Control;
+  searchYear:number;
 
 	searchTitle: string = '';
 	searchPlace: string = '';
@@ -50,6 +54,16 @@ export default class SearchComponent {
 
 	constructor(@Inject('IS_DEV_ENVIRONMENT') private isDev: boolean) {
    	this.categories = ['a', 'b', 'c', 'd'];
+
+    this.searchCategory = new Control('');
+    this.searchCategory.valueChanges
+      .debounceTime(500)
+      .subscribe(category => this.getYearFromServer(category));
   }
+
+  getYearFromServer(category) {
+        this.searchYear = 12*Math.random().toFixed(4);
+        console.log("The year for the ${category} is:" + this.searchYear );
+    }
     
 }

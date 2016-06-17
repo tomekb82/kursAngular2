@@ -14,12 +14,13 @@
         HTML element's attribute: {{myTitle.getAttribute('value') | json}}
       </pre>
     </div>
-    
+
   </div>
   <div class="form-group">
     <label for="photoYear">Year:</label>
     <input id="photoYear" log-directive
            name="photoYear"
+           [value] = "searchYear"
            type="number" min="0" step="any"
            placeholder="Year" class="form-control">
   </div>
@@ -27,13 +28,14 @@
     <label for="photoPlace">Place:</label>
     <input type="text" name="photoPlace" log-directive
            placeholder="Place" class="form-control"
-           [(ngModel)] = "searchPlace">
+           [ngFormControl]="searchCategory"
+           [(ngModel)] = "searchPlace" >
   </div>
   <div class="form-group">
     <label for="photoCategory">Category:</label>
-    <select id="photoCategory" class="form-control" ngControl="category" >
+    <select id="photoCategory" class="form-control" ngControl="category">
       <option value="">All categories</option>
-      <option *ngFor="#c of categories"
+      <option *ngFor="#c of categories" 
               [value]="c">{{c}}</option>
     </select>
   
