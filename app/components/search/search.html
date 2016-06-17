@@ -3,8 +3,18 @@
     <label for="photoTitle">Title:</label>
     <input type="text" name="photoTitle" log-directive
            placeholder="Title" class="form-control"
-           [value]="searchTitle" [attr.value] = "searchTitle" 
+           [value]="searchTitle" [attr.value] = "searchTitle"
+           #myTitle
            (input)="onInputSearchTitleEvent($event)" >
+    <div *ngIf="isDev">
+      <p>Current state:</p>
+      <pre>
+        Component property:       {{searchTitle}}
+        DOM element's property:   {{myTitle.value}}
+        HTML element's attribute: {{myTitle.getAttribute('value') | json}}
+      </pre>
+    </div>
+    
   </div>
   <div class="form-group">
     <label for="photoYear">Year:</label>
@@ -16,7 +26,8 @@
   <div class="form-group">
     <label for="photoPlace">Place:</label>
     <input type="text" name="photoPlace" log-directive
-           placeholder="Place" class="form-control">
+           placeholder="Place" class="form-control"
+           [(ngModel)] = "searchPlace">
   </div>
   <div class="form-group">
     <label for="photoCategory">Category:</label>
@@ -33,7 +44,7 @@
   </div>
 </form>
 
-<div class="well" >
+<div *ngIf="isDev" class="well" >
   <div class="row">
     <div class="col-md-12">
       <h4> Bindings </h4>
@@ -42,7 +53,7 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-      <search-processor [title]="searchTitle" year="22222"> </search-processor>
+      <search-processor [place]="searchPlace" year="22222"> </search-processor>
     </div>
   </div>
 </div>

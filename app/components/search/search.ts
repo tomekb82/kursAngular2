@@ -1,28 +1,28 @@
-import {Component, Input} from 'angular2/core';
+import {Component, Input, Inject} from 'angular2/core';
 import LogDirective from 'app/directives/logging';
 
 @Component({
     selector: 'search-processor',
     template: `
-    Photo title:  {{title}} 
+    Photo place (2 way data binding):  {{place}} 
   `,
     styles:[`:host {background: cyan;}`]
 })
 class SearchProcessorComponent {
 
 	@Input('year') year: number;
-  //  @Input('title') title: string;
+  //  @Input('place') place: string;
 
-    private _title: string;
+  private _place: string;
 
-    @Input('title')
-    set setTitle(value: string) {
-        this._title = value;
-    }
+  @Input('place')
+  set setPlace(value: string) {
+    this._place = value;
+  }
 
-    get title(): string {
-        return this._title;
-    }
+  get place(): string {
+    return this._place;
+  }
 }
 
 @Component({
@@ -36,20 +36,25 @@ export default class SearchComponent {
 	categories: string[];
 
 	searchTitle: string = '';
+	searchPlace: string = '';
 
 	searchTextarea: string = ""
 
-  	onInputSearchTitleEvent(event: Event): void {
-    	let inputElement: HTMLInputElement = <HTMLInputElement> event.target;
+  isDev: boolean;
+ 
+  onInputSearchTitleEvent(event: Event): void {
+   	let inputElement: HTMLInputElement = <HTMLInputElement> event.target;
 
-    	this.searchTitle = inputElement.value;
-    	this.searchTextarea = "The input property value = " + inputElement.value;
-    	this.searchTextarea += "\nThe input attribute value =" + inputElement.getAttribute('value');
-    	this.searchTextarea += "\nThe title property value =" + this.searchTitle;
-  	}
+   	this.searchTextarea = "The input property value = " + inputElement.value;
+   	this.searchTextarea += "\nThe input attribute value =" + inputElement.getAttribute('value');
+   	this.searchTextarea += "\nThe title property value =" + this.searchTitle;
+  }
 
-	constructor() {
-    	this.categories = ['a', 'b', 'c', 'd'];
-
-   	}
+	constructor(@Inject('IS_DEV_ENVIRONMENT') private isDevEnv: boolean) {
+   	this.categories = ['a', 'b', 'c', 'd'];
+    this.isDev = isDevEnv;
+    console.log("iddev=" + this.isDev);
+    
+  }
+    
 }

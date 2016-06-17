@@ -10,7 +10,7 @@ const DEFAULT_SERVICE_PROVIDERS = [ PhotoService ];
 bootstrap(ApplicationComponent, [
     ROUTER_PROVIDERS,
     DEFAULT_SERVICE_PROVIDERS,
-    provide("IS_PROD_ENVIRONMENT",{useValue:false}),
+    provide("IS_DEV_ENVIRONMENT",{useValue:true}),
     provide(LocationStrategy, {useClass: HashLocationStrategy})
     
 ]);

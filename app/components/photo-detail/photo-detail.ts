@@ -32,13 +32,13 @@ export class PhotoParametersComponent {
   selector: 'photo-detail-page',
   //providers: [provide(PhotoService, {useClass: MockPhotoService})], // mock using mock class
   providers: [provide(PhotoService,{useFactory:              // mock using factory
-            (isProd) =>{
-                      if (isProd){
-                        return new PhotoService();
+            (isDev) =>{
+                      if (isDev){
+                        return new MockPhotoService(); 
                       } else{
-                        return new MockPhotoService();
+                        return new PhotoService();
                       }
-            }, deps:["IS_PROD_ENVIRONMENT"]})],
+            }, deps:["IS_DEV_ENVIRONMENT"]})],
   template: `
     <div class="thumbnail">
       <h4 class="pull-right env-{{type}}">{{ photo.year }}</h4>
