@@ -7,23 +7,44 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 
 import {WeatherService} from '../../services/weather-service';
+import {TemperaturePipe} from '../../pipes/temperature-pipe';
 
 @Component({
     selector: 'contact',
-    template: `<div class="contact">Contact Component 
+    template: `<div class="contact form-group">Contact Component 
                    <br>
                    <input type="text" style="color:black" placeholder="Type city name" [ngFormControl]="searchCity"/>
                    <h3>{{temperature}}</h3>
-               </div>`,
+               </div>
+
+              <div class="form-group">
+                  <input type='text' value="0" placeholder= "Enter temperature" [(ngModel)] = "temp">
+                  <button (click)="toggleFormat()">Toggle Format</button>
+                  <br>In {{targetFormat}} this temperature is {{temp | temperature: format | number:'1.1-2'}}
+              </div>
+               `,
     styles: [`.contact {background: #286090; color: white; padding: 15px 0 0 30px;  height: 80px; width:100%;
                     float:left; box-sizing:border-box;}`],
-    providers: [WeatherService]})   
+    providers: [WeatherService],
+    pipes:[TemperaturePipe]  })
 export class ContactComponent {
+    private API_KEY: string = "2d800ad4191092756a2d8379e9493f08";
     private baseWeatherURL: string= 'http://api.openweathermap.org/data/2.5/find?q=';
-    private urlSuffix: string = "&units=imperial&appid=ed9e3bd9520c05c5a7a47ab7576a3386";
+    private urlSuffix: string = "&units=imperial&appid=" + this.API_KEY;
 
 	searchCity: Control;
     temperature: string;
+    temp: number;
+    toCelsius: boolean=true;
+    targetFormat: string ='Celsius';
+    format: string='FtoC';
+
+    toggleFormat(){
+        this.toCelsius = !this.toCelsius;
+        this.format = this.toCelsius? 'FtoC': 'CtoF';
+        this.targetFormat = this.toCelsius?'Celsius':'Fahrenheit';
+    }
+
     constructor(private http:Http, private weatherService: WeatherService){
         this.searchCity = new Control('');
         /*this.searchCity.valueChanges
