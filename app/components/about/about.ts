@@ -3,7 +3,7 @@ import {Component, ViewChild, AfterViewInit, ViewEncapsulation} from 'angular2/c
 @Component({
     selector: 'hobby',
     styles: ['.child {background: lightgreen;}'],
-    template: `<h2> Hobby </h2>
+    template: `<h2> Hobby - {{name}}</h2>
                 <div>This &lt;div&gt; is defined in the child's template</div>
                 <div class="child">
                   <!--<ng-content></ng-content>-->
@@ -18,6 +18,7 @@ class Hobby {
     childProperty: string = 'value';
     show(name) {
         console.log(`Hello from ${name}.`);
+        this.name = name;
     }
 }
 
