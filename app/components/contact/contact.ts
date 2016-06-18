@@ -65,7 +65,6 @@ export class ContactComponent {
                             `Current temperature is  ${res.list[0].main.temp}F, ` +
                             `humidity: ${res.list[0].main.humidity}%`;
                         this.temperature = res.list[0].main.temp;
-                        console.log(this.temperature);    
                     }
                 },
                 err => console.log(`Can't get weather. Error code: %s, URL: %s`, err.message, err.url),
