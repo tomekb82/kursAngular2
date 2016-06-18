@@ -1,16 +1,19 @@
-import {Component, Input, Inject} from 'angular2/core';
+import {Component, Input, Inject, OnChanges, SimpleChange} from 'angular2/core';
 import {Control, ControlGroup, FORM_DIRECTIVES} from 'angular2/common';
 import 'rxjs/add/operator/debounceTime';
 import LogDirective from 'app/directives/logging';
+
+interface IChanges {[key: string]: SimpleChange};
 
 @Component({
     selector: 'search-processor',
     template: `
     Photo place (2 way data binding):  {{place}} 
+    <div>Message: {{message}}</div>
   `,
     styles:[`:host {background: cyan;}`]
 })
-class SearchProcessorComponent {
+class SearchProcessorComponent implements OnChanges {
 
 	@Input('year') year: number;
   //  @Input('place') place: string;
@@ -26,6 +29,8 @@ class SearchProcessorComponent {
     return this._place;
   }
 
+  message: string = 'Initial message';
+
   /** place isn't initialized yet */
   constructor() {
     console.log(`constructor: ${this.place}`);
@@ -34,6 +39,11 @@ class SearchProcessorComponent {
   /** Invoked every time an @Input() property changes via the data binding */
   ngOnChanges() {
     console.log(`ngOnChanges: ${this.place}`);
+  }
+
+  /* On Changes with params */
+  ngOnChanges(changes: IChanges) {
+    this.message = JSON.stringify(changes, null, 2);
   }
 
   /**
