@@ -44,6 +44,10 @@ export default class SearchComponent {
 
 	searchTextarea: string = ""
 
+  onSelectEvent({target}):void{
+    this.searchPlace=target.value;
+  }
+
   onInputSearchTitleEvent(event: Event): void {
    	let inputElement: HTMLInputElement = <HTMLInputElement> event.target;
 

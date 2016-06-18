@@ -33,7 +33,7 @@
   </div>
   <div class="form-group">
     <label for="photoCategory">Category:</label>
-    <select id="photoCategory" class="form-control" ngControl="category">
+    <select id="photoCategory" class="form-control" ngControl="category" (change)="onSelectEvent($event)">
       <option value="">All categories</option>
       <option *ngFor="#c of categories" 
               [value]="c">{{c}}</option>

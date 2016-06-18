@@ -14,13 +14,14 @@ import {TemperaturePipe} from '../../pipes/temperature-pipe';
     template: `<div class="contact form-group">Contact Component 
                    <br>
                    <input type="text" style="color:black" placeholder="Type city name" [ngFormControl]="searchCity"/>
-                   <h3>{{temperature}}</h3>
+                   
                </div>
+               <pre *ngIf="temperatureDescription"> {{temperatureDescription}}</pre>
 
               <div class="form-group">
-                  <input type='text' value="0" placeholder= "Enter temperature" [(ngModel)] = "temp">
+                  <input type='text' value="0" placeholder= "Enter temperature" [(ngModel)] = "temperature">
                   <button (click)="toggleFormat()">Toggle Format</button>
-                  <br>In {{targetFormat}} this temperature is {{temp | temperature: format | number:'1.1-2'}}
+                  <br>In {{targetFormat}} this temperature is {{temperature | temperaturePipe: format | number:'1.1-2'}}
               </div>
                `,
     styles: [`.contact {background: #286090; color: white; padding: 15px 0 0 30px;  height: 80px; width:100%;
@@ -28,13 +29,13 @@ import {TemperaturePipe} from '../../pipes/temperature-pipe';
     providers: [WeatherService],
     pipes:[TemperaturePipe]  })
 export class ContactComponent {
-    private API_KEY: string = "2d800ad4191092756a2d8379e9493f08";
+    private API_KEY: string = "c3f4b5f050695675a49a9083685892a7";
     private baseWeatherURL: string= 'http://api.openweathermap.org/data/2.5/find?q=';
     private urlSuffix: string = "&units=imperial&appid=" + this.API_KEY;
 
 	searchCity: Control;
     temperature: string;
-    temp: number;
+    temperatureDescription: string;
     toCelsius: boolean=true;
     targetFormat: string ='Celsius';
     format: string='FtoC';
@@ -51,7 +52,7 @@ export class ContactComponent {
             .debounceTime(500)
             .subscribe(city => weatherService.getWeather(http, city));*/
         this.searchCity.valueChanges
-            .debounceTime(200)
+            .debounceTime(500)
             .switchMap(city => this.getWeather(city))
             .subscribe(
                 res => {
@@ -60,9 +61,11 @@ export class ContactComponent {
                         this.temperature ='City is not found';
                     } else {
 
-                        this.temperature =
+                        this.temperatureDescription =
                             `Current temperature is  ${res.list[0].main.temp}F, ` +
                             `humidity: ${res.list[0].main.humidity}%`;
+                        this.temperature = res.list[0].main.temp;
+                        console.log(this.temperature);    
                     }
                 },
                 err => console.log(`Can't get weather. Error code: %s, URL: %s`, err.message, err.url),

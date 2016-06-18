@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform} from 'angular2/core';
 
-@Pipe({name: 'temperature'})
+@Pipe({name: 'temperaturePipe'})
 export class TemperaturePipe implements PipeTransform {
 
     transform(value: any[], parameters: string[]): any {
