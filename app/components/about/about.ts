@@ -2,12 +2,20 @@ import {Component, ViewChild, AfterViewInit} from 'angular2/core';
 
 @Component({
     selector: 'hobby',
-    template: `<h3>Hobby</h3>`
+    template: `<h3>Hobby</h3>  {{name}}`
 
 })
 class Hobby {
+	name:string;
+	tmpName:string;
     show(name) {
         console.log(`Hello from ${name}.`);
+        this.tmpName = name;
+    }
+
+    ngOnChanges() {
+    	this.name = this.tmpName;
+    	console.log("hobby name" + this.name);
     }
 }
 
