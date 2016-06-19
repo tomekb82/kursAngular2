@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, ChangeDetectionStrategy} from 'angular2/core';
 import {PhotoGeneratorComponent} from './photo-generator';
 import {PhotoProcessorComponent} from './photo-processor';
 import {IPhoto} from './photo';
@@ -11,6 +11,8 @@ import {IPhoto} from './photo';
     <photo-processor [photo]="photo"></photo-processor>
   `,
     directives: [PhotoGeneratorComponent, PhotoProcessorComponent]
+
+    ,changeDetection: ChangeDetectionStrategy.OnPush
 })
 export default class PhotoMediatorComponent {
     photo: IPhoto;

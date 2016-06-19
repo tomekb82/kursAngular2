@@ -18,6 +18,7 @@ export class PhotoGeneratorComponent {
     constructor() {
         setInterval(() => {
             this.photoYear = (100*Math.random());
+            console.log(this.photoYear);
         }, 2000);
     }
 
