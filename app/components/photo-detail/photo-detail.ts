@@ -32,8 +32,8 @@ class PhotoParameterDirective {
         setInterval(() => {
 
             let photoParams: IPhotoParamaters = {
-         focus: (100*Math.random()).toFixed(2),
-         zoom: (100*Math.random()).toFixed(2),
+               focus: (100*Math.random()).toFixed(2),
+               zoom: (100*Math.random()).toFixed(2),
                 pixels: (100*Math.random()).toFixed(2)
             };
 

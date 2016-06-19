@@ -8,6 +8,7 @@ import NavbarComponent from '../navbar/navbar';
 import HomeComponent from '../home/home';
 import {ContactComponent, ChatComponent} from '../contact/contact';
 import PhotoDetailComponent from "../photo-detail/photo-detail";
+import PhotoMediatorComponent from "../photo-mediator/photo-mediator";
 
 
 // end::imports[]
@@ -25,13 +26,16 @@ import PhotoDetailComponent from "../photo-detail/photo-detail";
    HomeComponent,
    PhotoDetailComponent,
    ContactComponent,
-   ChatComponent]
+   ChatComponent,
+   PhotoMediatorComponent]
 })
 @RouteConfig([
   {path: '/', component: HomeComponent, as: 'Home'},
   {path: '/photos/:photoId/...', component: PhotoDetailComponent, as: 'PhotoDetail' , data:{isProd: true}},
 
   {path: '/contact', component: ContactComponent, as: 'Contact'},
+  {path: '/mediator', component: PhotoMediatorComponent, as: 'Mediator'},
+
   {aux: '/chat', component: ChatComponent, as: 'Chat'},
 
   {path:'/about',  loader: ()=> System.import('app/components/about/about')

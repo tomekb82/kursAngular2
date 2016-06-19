@@ -9,7 +9,7 @@ interface IChanges {[key: string]: SimpleChange};
     selector: 'search-processor',
     template: `
     Photo place (2 way data binding):  {{place}} 
-    <div>Message: {{message}}selector: ''</div>
+    <div>Message: {{message}}''</div>
   `,
     styles:[`:host {background: cyan;}`]
 })

@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy} from 'angular2/core';
+import { Component, Input, ChangeDetectionStrategy, AfterViewChecked} from 'angular2/core';
 
 @Component({
   selector: 'grand-child',
@@ -9,8 +9,12 @@ import { Component, Input, ChangeDetectionStrategy} from 'angular2/core';
       <div>Got from child: {{grandChildReceived}}</div>
     </div>`
 })
-class GrandChildComponent {
+class GrandChildComponent implements AfterViewChecked{
   @Input() grandChildReceived: string;
+
+  ngAfterViewChecked(){
+    console.log('GrandChild: in ngAfterViewChecked');
+  }
 }
 
 @Component({
@@ -28,10 +32,14 @@ class GrandChildComponent {
     ,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-class ChildComponent {
+class ChildComponent implements AfterViewChecked{
   @Input() greeting: string;
   @Input() user: {name: string};
   message: string = 'Initial message';
+
+  ngAfterViewChecked() {
+    console.log("Child: in ngAfterViewChecked");
+  }
 }
 
 @Component({
@@ -46,7 +54,11 @@ class ChildComponent {
       <child [greeting]="greeting" [user]="user"></child>
     </div>`
 })
-export default class OnPushComponent {
+export default class OnPushComponent implements AfterViewChecked{
   greeting: string = 'Hello';
   user: {name: string} = {name: 'John'};
+
+  ngAfterViewChecked() {
+    console.log("Parent: in ngAfterViewChecked");
+  }
 }
