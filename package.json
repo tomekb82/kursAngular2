@@ -3,6 +3,7 @@
   "description": "Simple app for Angular2",
   "private": true,
   "scripts": {
+    "postinstall": "typings install",
     "start": "live-server"
   },
   "engines": {
@@ -20,6 +21,7 @@
   },
   "devDependencies": {
     "live-server": "^0.8.2",
-    "typescript": "^1.8.9"
+    "typescript": "^1.8.9",
+    "typings": "^0.7.9"
   }
 }

@@ -4,6 +4,10 @@
     "module": "system",
     "moduleResolution": "commonjs",
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "noImplicitAny": true
-  }
+  },
+  "exclude": [
+    "node_modules"
+  ]
 }

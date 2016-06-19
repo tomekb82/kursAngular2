@@ -1,0 +1,38 @@
+<div class="thumbnail">
+      <h4 class="pull-right env-{{type}}">{{ photo.year }}</h4>
+      <h3 class="env-{{type}}">{{photo.title}}</h3>
+      <hr>
+      <img src="http://placehold.it/820x320">
+      <b>Description:</b>
+      <p>{{ photo.description }}</p>
+      
+      <div class="ratings">
+        <p class="pull-right">{{ reviews.length }} reviews</p>
+        <p><photo-stars [rating]="photo.rating"></photo-stars></p>
+      </div>
+
+      <b>Categories: </b> <i>{{photo.categories }}</i>
+
+      <hr>
+      <div *ngIf="isDev">
+        <a *ngIf="!showParams" (click)="toggleValue()" [routerLink]="[ './PhotoParameters']">Show random parameters</a>
+        <a *ngIf="showParams" (click)="toggleValue()" [routerLink]="[ './PhotoDescription']">Hide parameters</a>
+        <pre>
+          <router-outlet></router-outlet>  
+        </pre>
+      </div>  
+    </div>
+    <div class="well" id="reviews-anchor">
+      <div class="row">
+        <div class="col-md-12"></div>
+      </div>
+      <div class="row" *ngFor="#review of reviews">
+        <hr>
+        <div class="col-md-12">
+          <photo-stars [rating]="review.rating"></photo-stars>
+          <span>{{ review.user }}</span>
+          <span class="pull-right">{{ review.timestamp | date: 'shortDate' }}</span>
+          <p>{{ review.comment }}</p>
+        </div>
+      </div>
+    </div>

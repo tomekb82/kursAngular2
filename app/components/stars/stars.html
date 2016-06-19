@@ -1,7 +1,8 @@
 <p>
-  <span *ngFor="#star of stars"
+  <span *ngFor="#star of stars; #i = index"
         class="starrating glyphicon glyphicon-star"
-        [class.glyphicon-star-empty]="star">
+        [class.glyphicon-star-empty]="!star"
+        (click)="fillStarsWithColor(i)">
   </span>
-  <span>{{ rating }} stars</span>
+  <span *ngIf="rating">{{rating | number:'.0-2'}} stars</span>
 </p>
