@@ -8,6 +8,7 @@ import 'rxjs/add/operator/debounceTime';
 
 import {WeatherService} from '../../services/weather-service';
 import {TemperaturePipe} from '../../pipes/temperature-pipe';
+import OnPushComponent from '../onPush/onPush';
 
 @Component({
     selector: 'contact',
@@ -23,10 +24,17 @@ import {TemperaturePipe} from '../../pipes/temperature-pipe';
                   <button (click)="toggleFormat()">Toggle Format</button>
                   <br>In {{targetFormat}} this temperature is {{temperature | temperaturePipe: format | number:'1.1-2'}}
               </div>
+
+              <div class="form-group">
+                <on-push></on-push>
+              </div>
+
+
                `,
     styles: [`.contact {background: #286090; color: white; padding: 15px 0 0 30px;  height: 80px; width:100%;
                     float:left; box-sizing:border-box;}`],
     providers: [WeatherService],
+    directives: [OnPushComponent],
     pipes:[TemperaturePipe]  })
 export class ContactComponent {
     private API_KEY: string = "c3f4b5f050695675a49a9083685892a7";
