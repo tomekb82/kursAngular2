@@ -7,6 +7,14 @@ import {
   FORM_DIRECTIVES
 } from 'angular2/common';
 
+
+
+function peselValidator(control: Control): {[key: string]: any} {
+  const value: string = control.value || '';
+  const valid = value.match(/^\d{11}$/);
+  return valid ? null : {pesel: true};
+}
+
 @Component({
   selector: 'photo-form',
   directives: [CORE_DIRECTIVES, FORM_DIRECTIVES],
@@ -27,6 +35,13 @@ import {
         <label for="username">Username</label>
         <input id="username" type="text" ngControl="username">
       </div>
+
+	  <div>
+        <label for="pesel">PESEL</label>
+      	<input id="pesel" type="text" ngControl="peselCtrl">
+        <span [hidden]="!form.hasError('pesel', 'peselCtrl')">PESEL in invalid</span>
+	  </div>
+
       <div>
         <label>Emails</label>
         <ul ngControlGroup="emails">
@@ -48,13 +63,15 @@ export default class FormsComponent {
 
   form: ControlGroup;
   emails: Control[];
+  peselCtrl: Control;
 
   constructor() {
     this.emails = [new Control()];
 
     this.form = new ControlGroup({
       username: new Control(),
-      emails: new ControlArray(this.emails)
+      emails: new ControlArray(this.emails),
+      peselCtrl: new Control('', peselValidator)
     });
   }
 
