@@ -1,5 +1,5 @@
 import {Component, ViewEncapsulation, bind, provide, Inject, Directive, Output, EventEmitter} from 'angular2/core';
-import {NgFor} from 'angular2/common';
+import {NgFor} from 'angular2/common';  
 import {RouteConfig,  ROUTER_DIRECTIVES, RouteParams, RouteData} from 'angular2/router';
 import {Photo, Review, PhotoService, MockPhotoService} from '../../services/photo-service';
 import StarsComponent from '../stars/stars';

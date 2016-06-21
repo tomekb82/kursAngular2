@@ -9,6 +9,7 @@ import HomeComponent from '../home/home';
 import {ContactComponent, ChatComponent} from '../contact/contact';
 import PhotoDetailComponent from "../photo-detail/photo-detail";
 import PhotoMediatorComponent from "../photo-mediator/photo-mediator";
+import FormsComponent from "../forms/forms";
 
 
 // end::imports[]
@@ -27,7 +28,8 @@ import PhotoMediatorComponent from "../photo-mediator/photo-mediator";
    PhotoDetailComponent,
    ContactComponent,
    ChatComponent,
-   PhotoMediatorComponent]
+   PhotoMediatorComponent,
+   FormsComponent]
 })
 @RouteConfig([
   {path: '/', component: HomeComponent, as: 'Home'},
@@ -35,6 +37,7 @@ import PhotoMediatorComponent from "../photo-mediator/photo-mediator";
 
   {path: '/contact', component: ContactComponent, as: 'Contact'},
   {path: '/mediator', component: PhotoMediatorComponent, as: 'Mediator'},
+  {path: '/forms', component: FormsComponent, as: 'Forms'},
 
   {aux: '/chat', component: ChatComponent, as: 'Chat'},
 
