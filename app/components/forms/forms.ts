@@ -6,14 +6,13 @@ import {
   CORE_DIRECTIVES,
   FORM_DIRECTIVES,
   NG_VALIDATORS,
-  Validators
+  Validators,
+  FormBuilder	
 } from 'angular2/common';
 
-function peselValidator(control: Control): {[key: string]: any} {
-  const value: string = control.value || '';
-  const valid = value.match(/^\d{11}$/);
-  return valid ? null : {pesel: true};
-}
+import {ValidationService} from '../../services/validaton-service';
+import {ControlMessages } from './control-messages';
+
 
 /**
  * Returns `true` if all Controls in the specified ControlGroup have exactly
@@ -54,8 +53,12 @@ class EmailValidatorDirective {}
 
 @Component({
   selector: 'photo-form',
-  directives: [CORE_DIRECTIVES, FORM_DIRECTIVES, EmailValidatorDirective, EqualValidatorDirective],
-  templateUrl: 'app/components/forms/forms.html'
+  directives: [CORE_DIRECTIVES, FORM_DIRECTIVES, 
+  	EmailValidatorDirective, 
+  	EqualValidatorDirective, 
+  	ControlMessages],
+  templateUrl: 'app/components/forms/forms.html',
+  styleUrls: ['app/components/forms/forms.css'], // <4>
 })
 export default class FormsComponent {
   onSubmit(formValue: any, isFormValid: boolean) {
@@ -68,10 +71,10 @@ export default class FormsComponent {
   emailsModel: Control[];
   peselCtrlModel: Control;
 
-  constructor() {
-  	this.emailsModel = [new Control('', emailValidator)];
+  constructor(private fb: FormBuilder) {
+  	this.emailsModel = [new Control('')];
 
-    this.formModel = new ControlGroup({
+   /* this.formModel = new ControlGroup({
       'usernameModel': new Control('', Validators.required),
       'emailsModel': new ControlArray(this.emailsModel),
       'peselCtrlModel': new Control('', peselValidator),
@@ -79,6 +82,18 @@ export default class FormsComponent {
         'passwordModel': new Control('', Validators.minLength(5)),
         'pconfirmModel': new Control('')
       }, {}, equalValidator)
+    });*/
+
+    /* Form builder */
+    //const fb = new FormBuilder();
+    this.formModel = fb.group({
+      'usernameModel': ['', Validators.required],
+      'emailsModel': new ControlArray(this.emailsModel),
+      'peselCtrlModel': ['', Validators.compose([Validators.required, ValidationService.peselValidator])],
+      'passwordsGroupModel': fb.group({
+        'passwordModel': ['', Validators.minLength(5)],
+        'pconfirmModel': ['']
+      }, {validator: equalValidator})
     });
   }
 
@@ -87,12 +102,12 @@ export default class FormsComponent {
   }
 
   addEmail() {
-    const emailsModel = <ControlArray>this.formModel.controls['emails'];
-    emailsModel.push(new Control('', emailValidator));
+    const emailsModel = <ControlArray>this.formModel.controls['emailsModel'];
+    emailsModel.push(new Control(''));
   }
 
   register() {
-    if (this.formModel.valid) {
+  	if (this.formModel.dirty && this.formModel.valid) {
       console.log(this.formModel.value);
     }
   }

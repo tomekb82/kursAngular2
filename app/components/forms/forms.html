@@ -31,24 +31,29 @@
 
 	<hr>
     <h4>Data-driven:</h4>
-    <form [ngFormModel]="formModel" (ngSubmit)="register()">
+    <form [ngFormModel]="formModel" (ngSubmit)="register()" novalidate>
+      	
       	<div>
-        	Username:
-        	<input type="text" ngControl="usernameModel">
-        	<span [hidden]="!formModel.hasError('required', 'usernameModel')">Username is required</span>
+      		<label for="username">Username:</label>
+        	<input id="username" type="text" ngControl="usernameModel" #username="ngForm">
+        	<!-- <span [hidden]="!formModel.hasError('required', 'usernameModel')">Username is required</span>
+        	<div [hidden]="username.valid">Required</div> -->
+        	<control-messages control="usernameModel"></control-messages>
       	</div>
     
     	<div>
-       		PESEL:
+       		<label for="pesel">PESEL:</label>
       		<input id="pesel" type="text" ngControl="peselCtrlModel">
-        	<span [hidden]="!formModel.hasError('pesel', 'peselCtrlModel')">PESEL in invalid</span>
+        	<!-- <span [hidden]="!formModel.hasError('pesel', 'peselCtrlModel')">PESEL in invalid</span> -->
+        	<control-messages control="peselCtrlModel"></control-messages>
     	</div>
     
     	<div ngControlGroup="passwordsGroupModel">
     	    <div>
     	    	Password:
-    	        <input type="password" ngControl="passwordModel">
+    	        <input type="password" ngControl="passwordModel" >
     	        <span [hidden]="!formModel.hasError('minlength', ['passwordsGroupModel', 'passwordModel'])">Password is too short</span>
+    	        
     	    </div>
     	    
         	<div>
@@ -61,13 +66,13 @@
       	<div>
         	<label>Emails</label>
         	<ul ngControlGroup="emailsModel">
-          		<li *ngFor="#e of emails; #i = index">
+          		<li *ngFor="#e of emailsModel; #i = index">
           			<input ngControl="{{i}}" email>
-		</li>
+				</li>
         	</ul>
         	<button type="button" (click)="addEmail()">Add Email</button>
       	</div> 
-      	<button type="submit">Register</button>
+      	<button class="pull-right" type="submit" [disabled]="!formModel.valid">Register</button>
     </form> 
     <label>Form Value:</label>
     <pre>{{value}}</pre>
