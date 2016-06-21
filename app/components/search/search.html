@@ -1,52 +1,67 @@
-<form name="searchForm" role="form">
+<form [ngFormModel]="formModel" 
+      (ngSubmit)="onSearch()"
+      novalidate>
   <div class="form-group">
+  <!-- <div class="form-group" [class.has-error]="formModel.hasError('minlength', 'title')"> -->
     <label for="photoTitle">Title:</label>
-    <input type="text" name="photoTitle" log-directive
+    <input type="text" id="photoTitle" log-directive
            placeholder="Title" class="form-control"
+           ngControl="title"
+           minlength="3"
            [value]="searchTitle" [attr.value] = "searchTitle"
            #myTitle
-           (input)="onInputSearchTitleEvent($event)" >
-    <div *ngIf="isDev">
-      <p>Current state:</p>
-      <pre>
-        Component property:       {{searchTitle}}
-        DOM element's property:   {{myTitle.value}}
-        HTML element's attribute: {{myTitle.getAttribute('value') | json}}
-      </pre>
-    </div>
+           (input)="onInputSearchTitleEvent($event)" >  
+   <span class="help-block" [class.hidden]="!formModel.hasError('minlength', 'title')" >
+        Type at least 3 characters
+   </span>       
+   <div *ngIf="isDev">
+     <p>Current state:</p>
+     <pre>
+       Component property:       {{searchTitle}}
+       DOM element's property:   {{myTitle.value}}
+       HTML element's attribute: {{myTitle.getAttribute('value') | json}}
+     </pre>
+   </div>  
 
   </div>
-  <div class="form-group">
-    <label for="photoYear">Year:</label>
-    <input id="photoYear" log-directive
-           name="photoYear"
-           [value] = "searchYear"
-           type="number" min="0" step="any"
-           placeholder="Year" class="form-control">
-  </div>
-  <div class="form-group">
-    <label for="photoPlace">Place:</label>
-    <input type="text" name="photoPlace" log-directive
-           placeholder="Place" class="form-control"
-           [ngFormControl]="searchCategory"
-           [(ngModel)] = "searchPlace" >
-  </div>
-  <div class="form-group">
+<!--  <div class="form-group" [class.has-error]="formModel.hasError('positivenumber', 'year')"> -->
+ <div class="form-group">
+   <label for="photoYear">Year:</label>
+   <input id="photoYear" log-directive
+          name="photoYear"
+          type="number" min="0" step="any"
+          placeholder="Year" class="form-control"
+          ngControl="year"
+          [value] = "searchYear">
+    <span class="help-block"
+         [class.hidden]="!formModel.hasError('positivenumber', 'year')">
+     Year is not a positive number
+   </span>    
+         
+ </div> 
+ <div class="form-group">
+   <label for="photoPlace">Place:</label>
+   <input type="text" name="photoPlace" log-directive
+          placeholder="Place" class="form-control"
+          [ngFormControl]="searchCategory"
+          [(ngModel)] = "searchPlace" >
+ </div> 
+ <div class="form-group">
     <label for="photoCategory">Category:</label>
-    <select id="photoCategory" class="form-control" ngControl="category" (change)="onSelectEvent($event)">
-      <option value="">All categories</option>
-      <option *ngFor="#c of categories" 
-              [value]="c">{{c}}</option>
-    </select>
-  
-  </div>
+  <select id="photoCategory" class="form-control" ngControl="category" (change)="onSelectEvent($event)">
+    <option value="-1">All categories</option>
+    <option *ngFor="#c of categories" 
+            [value]="c">{{c}}</option>
+  </select>
+    
+    </div> 
       
-  <div class="form-group">
-    <button type="submit" class="btn btn-primary btn-block">Search</button>
-  </div>
+   <div class="form-group">
+   <button type="submit" class="btn btn-primary btn-block">Search</button>
+ </div> 
 </form>
 
-<div *ngIf="isDev" class="well" >
+ <div *ngIf="isDev" class="well" >
   <div class="row">
     <div class="col-md-12">
       <h4> Bindings </h4>
@@ -58,4 +73,4 @@
       <search-processor [place]="searchPlace" [year]="searchYear"> </search-processor>
     </div>
   </div>
-</div>
+</div> 

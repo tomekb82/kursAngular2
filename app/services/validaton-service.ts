@@ -4,6 +4,14 @@ import * as Rx from 'rxjs/Rx';
 
 export class ValidationService {
 
+  static positiveNumberValidator(control: Control): any {
+    if (!control.value) return null;
+    const price = parseInt(control.value);
+    return price === null ||
+      typeof price === 'number' &&
+      price > 0 ? null : {positivenumber: true};
+  }
+
   static peselValidator(control: Control): {[key: string]: any} {
   		const value: string = control.value || '';
   		const valid = value.match(/^\d{11}$/);

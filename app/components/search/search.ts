@@ -1,67 +1,25 @@
-import {Component, Input, Inject, OnChanges, SimpleChange} from 'angular2/core';
-import {Control, ControlGroup, FORM_DIRECTIVES} from 'angular2/common';
+import {Component, Inject} from 'angular2/core';
+import {Control,
+  ControlGroup,
+  FormBuilder,
+  Validators,
+  FORM_DIRECTIVES 
+} from 'angular2/common';
 import 'rxjs/add/operator/debounceTime';
-import LogDirective from 'app/directives/logging';
-
-interface IChanges {[key: string]: SimpleChange};
-
-@Component({
-    selector: 'search-processor',
-    template: `
-    Photo place (2 way data binding):  {{place}} 
-    <div>Message: {{message}}''</div>
-  `,
-    styles:[`:host {background: cyan;}`]
-})
-class SearchProcessorComponent implements OnChanges {
-
-	@Input('year') year: number;
-  //  @Input('place') place: string;
-
-  private _place: string;
-
-  @Input('place')
-  set setPlace(value: string) {
-    this._place = value;
-  }
-
-  get place(): string {
-    return this._place;
-  }
-
-  message: string = 'Initial message';
-
-  /** place isn't initialized yet */
-  constructor() {
-    console.log(`constructor: ${this.place}`);
-  }
-
-  /** Invoked every time an @Input() property changes via the data binding */
-  ngOnChanges() {
-    console.log(`ngOnChanges: ${this.place}`);
-  }
-
-  /* On Changes with params */
-  ngOnChanges(changes: IChanges) {
-    this.message = JSON.stringify(changes, null, 2);
-  }
-
-  /**
-   * Invoked after very first ngOnChanges(). It's used if you want to
-     use the values from component's properties, which are not available in the constructor.
-   */
-  ngOnInit() {
-    console.log(`ngOnInit: ${this.place}`);
-  }
-}
+import LogDirective from '../../directives/logging';
+import {PhotoService} from '../../services/photo-service';
+import {ValidationService} from '../../services/validaton-service';
+import {SearchProcessorComponent} from './search-processor';
 
 @Component({
   selector: 'photo-search',
-  directives: [LogDirective, SearchProcessorComponent],
+  providers: [PhotoService],
+  directives: [FORM_DIRECTIVES, LogDirective, SearchProcessorComponent],
   templateUrl: 'app/components/search/search.html',
   styles: ['.textarea {height: 100px; width: 220px;}'],
 })
 export default class SearchComponent {
+  formModel: ControlGroup;
 
 	categories: string[];
   searchCategory: Control;
@@ -84,13 +42,28 @@ export default class SearchComponent {
    	this.searchTextarea += "\nThe title property value =" + this.searchTitle;
   }
 
-	constructor(@Inject('IS_DEV_ENVIRONMENT') private isDev: boolean) {
-   	this.categories = ['a', 'b', 'c', 'd'];
+	constructor(@Inject('IS_DEV_ENVIRONMENT') private isDev: boolean, 
+      private photoService: PhotoService,
+      private fb: FormBuilder) {
+
+    this.categories = this.photoService.getCategories();
+
+    this.formModel = fb.group({
+      'title': [null, Validators.minLength(3)],
+      'year': [null, ValidationService.positiveNumberValidator],
+      'category': [-1]
+    })
 
     this.searchCategory = new Control('');
     this.searchCategory.valueChanges
       .debounceTime(500)
       .subscribe(category => this.getYearFromServer(category));
+  }
+
+  onSearch() {
+    if (this.formModel.valid) {
+      console.log(this.formModel.value);
+    }
   }
 
   getYearFromServer(category) {

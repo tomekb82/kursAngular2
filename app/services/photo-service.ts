@@ -35,6 +35,9 @@ export class PhotoService {
         .filter(r => r.photoId === photoId)
         .map(r => new Review(r.id, r.photoId, new Date(r.timestamp), r.user, r.rating, r.comment));
   }
+  getCategories(): string[] {
+    return ['home', 'garden', 'city', 'shop', 'holidays', 'sea'];
+  }
  
 }
 

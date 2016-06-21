@@ -14,7 +14,7 @@ bootstrap(ApplicationComponent, [
     ROUTER_PROVIDERS,
     HTTP_PROVIDERS,
     DEFAULT_SERVICE_PROVIDERS,
-    provide("IS_DEV_ENVIRONMENT",{useValue:true}),
+    provide("IS_DEV_ENVIRONMENT",{useValue:false}),
     provide(LocationStrategy, {useClass: HashLocationStrategy})
     
 ]);
