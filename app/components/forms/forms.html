@@ -1,0 +1,73 @@
+<h4>Template-driven:</h4>
+  	<form #f="ngForm" (ngSubmit)="onSubmit(f.value, f.valid)" novalidate>
+  		<div>
+    		Username:
+        	<input type="text" ngControl="username" required>
+        	<span [hidden]="!f.form.hasError('required', 'username')">Username is required</span>
+    	</div>
+
+    	<div>
+    		Email:              
+      		<input type="text" ngControl="emailCtrl" email>
+      		<span [hidden]="!f.form.hasError('email', 'emailCtrl')">Email is invalid</span>
+    	</div>
+    	
+    	<div ngControlGroup="passwordsGroup" equal>
+        	<div>
+          		Password:
+          		<input type="password" ngControl="password" minlength="5">
+          		<span [hidden]="!f.form.hasError('minlength', ['passwordsGroup', 'password'])">Password is too short</span>
+        	</div>
+
+        	<div>
+          		Confirm password:
+          		<input type="password" ngControl="pconfirm">
+          		<span [hidden]="!f.form.hasError('equal', 'passwordsGroup')">Passwords must be the same</span>
+        	</div>
+      	</div>
+
+    	<button type="submit">Register</button>
+	</form>
+
+	<hr>
+    <h4>Data-driven:</h4>
+    <form [ngFormModel]="formModel" (ngSubmit)="register()">
+      	<div>
+        	Username:
+        	<input type="text" ngControl="usernameModel">
+        	<span [hidden]="!formModel.hasError('required', 'usernameModel')">Username is required</span>
+      	</div>
+    
+    	<div>
+       		PESEL:
+      		<input id="pesel" type="text" ngControl="peselCtrlModel">
+        	<span [hidden]="!formModel.hasError('pesel', 'peselCtrlModel')">PESEL in invalid</span>
+    	</div>
+    
+    	<div ngControlGroup="passwordsGroupModel">
+    	    <div>
+    	    	Password:
+    	        <input type="password" ngControl="passwordModel">
+    	        <span [hidden]="!formModel.hasError('minlength', ['passwordsGroupModel', 'passwordModel'])">Password is too short</span>
+    	    </div>
+    	    
+        	<div>
+          		Confirm password:
+          		<input type="password" ngControl="pconfirmModel">
+          		<span [hidden]="!formModel.hasError('equal', 'passwordsGroupModel')">Passwords must be the same</span>
+        	</div>
+      	</div>
+    
+      	<div>
+        	<label>Emails</label>
+        	<ul ngControlGroup="emailsModel">
+          		<li *ngFor="#e of emails; #i = index">
+          			<input ngControl="{{i}}" email>
+		</li>
+        	</ul>
+        	<button type="button" (click)="addEmail()">Add Email</button>
+      	</div> 
+      	<button type="submit">Register</button>
+    </form> 
+    <label>Form Value:</label>
+    <pre>{{value}}</pre>
