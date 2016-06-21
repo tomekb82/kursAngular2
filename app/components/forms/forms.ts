@@ -89,7 +89,9 @@ export default class FormsComponent {
     this.formModel = fb.group({
       'usernameModel': ['', Validators.required],
       'emailsModel': new ControlArray(this.emailsModel),
-      'peselCtrlModel': ['', Validators.compose([Validators.required, ValidationService.peselValidator])],
+      'peselCtrlModel': ['', 
+      	Validators.compose([Validators.required/*, ValidationService.peselValidator*/]), 
+      	ValidationService.asyncPeselValidator],
       'passwordsGroupModel': fb.group({
         'passwordModel': ['', Validators.minLength(5)],
         'pconfirmModel': ['']

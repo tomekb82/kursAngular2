@@ -1,4 +1,6 @@
 import { Control} from 'angular2/common';
+import * as Rx from 'rxjs/Rx';
+
 
 export class ValidationService {
 
@@ -8,6 +10,16 @@ export class ValidationService {
   		return valid ? null : {pesel: true};
 	}
 
+/**
+ * Returns an Observable resolved with either a null or an error object.
+ */
+static asyncPeselValidator(control: Control): Rx.Observable {
+  const value: string = control.value || '';
+  const valid = value.match(/^\d{11}$/);
+  return Rx.Observable
+      .of(valid ? null : {pesel: true})
+      .delay(5000);
+}
 
   static getValidatorErrorMessage(code: string) {
     let config = {
