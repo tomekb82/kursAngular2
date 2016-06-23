@@ -5,6 +5,9 @@ import PhotoItemComponent from '../photo-item/photo-item';
 import {Photo, PhotoService, MockPhotoService} from '../../services/photo-service';
 import {FilterPipe} from '../../pipes/filter-pipe'
 import 'rxjs/add/operator/debounceTime';
+import {HTTP_PROVIDERS, Http} from 'angular2/http';
+import 'rxjs/add/operator/map';
+import { Observable} from "rxjs/Observable";
 
 @Component({
   selector: 'photo-home-page',
@@ -45,15 +48,39 @@ import 'rxjs/add/operator/debounceTime';
 export default class HomeComponent {
  
   photos: Photo[] = []; // <1>
+  theDataSource: Observable;
+
   titleFilter: Control = new Control();
   filterCriteria: string;
 
-  constructor(private photoService: PhotoService) { // <2>
-    this.photos = this.photoService.getPhotos(); // <3>
+  constructor(private photoService: PhotoService, private http: Http) { // <2>
+    //this.photos = this.photoService.getPhotos(); // <3>
+    this.theDataSource = this.http.get('/photos')
+            .map(res => res.json());
+
     this.titleFilter.valueChanges
       .debounceTime(100)
       .subscribe(
         value => this.filterCriteria = value,
         error => console.error(error));
   }
+
+  ngOnInit(){
+        // Get the data from the server
+        this.theDataSource.subscribe(
+            data => {
+                if (Array.isArray(data)){
+                    this.photos=data;
+                } else{
+                    this.photos.push(data);
+                }
+            },
+            err =>
+                console.log("Can't get photos. Error code: %s, URL: %s ",  err.status, err.url),
+            () => console.log('Photo(s) are retrieved')
+        );
+
+    }
+
+
 }

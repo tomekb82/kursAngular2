@@ -1,7 +1,7 @@
 System.config({
   baseURL: "/",
   transpiler: "typescript",
-  map:{'app': 'client/app'},
+  //map:{'app': 'client/app'},
   typescriptOptions: {
     "emitDecoratorMetadata": true
   },
