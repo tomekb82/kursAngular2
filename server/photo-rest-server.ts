@@ -1,5 +1,4 @@
-var express    = require('express');        // call express
-//var app        = express();                 // define our app using express
+import * as express from "express";
 
 const app = express();
 
@@ -28,6 +27,7 @@ function getPhotos(): Photo[] {
 }
 
 function getPhoto(photoId: number): Photo {
+    console.log("id=" + photoId);
     return photos.find(p => p.id === photoId);
 }
 
@@ -41,6 +41,7 @@ app.get('/photos', (req, res) => {
 });
 
 app.get('/photos/:id', (req, res) => {
+    console.log("id===" + req.params.id);
     res.json(getPhoto(parseInt(req.params.id)));
 });
 

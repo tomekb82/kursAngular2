@@ -61,3 +61,13 @@
 - uruchomienie serwera w trybie demona (konfiguracja w package.json)
 
    npm run dev
+
+
+UWAGA: W NODE nie dziala metoda find() na talicach jezeli wersja node jest 0x - trzeba zrobic upgrade:
+(TypeError: Object [object Object],[object Object],[object Object] has no method 'find')
+
+  sudo npm cache clean -f
+  sudo npm install -g n
+  sudo n stable
+  sudo ln -sf /usr/local/n/versions/node/<VERSION>/bin/node /usr/bin/node
+
