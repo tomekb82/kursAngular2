@@ -46,9 +46,6 @@
 
     typings install dt~express dt~es6-shim dt~serve-static dt~express-serve-static-core dt~mime --save --global
 
-- instalacja definicji dla websockets
-
-    typings install dt~ws --save --global
 
 - tsc in watch mode
 
