@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Photos CRM</title>
+  <style>body{padding-top:70px}</style>
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+
+  <link rel="stylesheet" href="app/components/forms/forms.css" />
+
+  <script src="../node_modules/jquery/dist/jquery.js"></script>
+  <script src="../node_modules/bootstrap/dist/js/bootstrap.js"></script>
+
+  <script src="../node_modules/angular2/bundles/angular2-polyfills.js"></script>
+  <script src="../node_modules/typescript/lib/typescript.js"></script>
+  <script src="../node_modules/systemjs/dist/system.src.js"></script>
+  <script src="../node_modules/rxjs/bundles/Rx.js"></script>
+  <script src="../node_modules/angular2/bundles/router.dev.js"></script>
+  <script src="../node_modules/angular2/bundles/angular2.dev.js"></script>
+  <script src="../node_modules/angular2/bundles/http.dev.js"></script>
+  <!--<script src="../client/config.js"></script> <!--2-->
+</head>
+<body>
+  <photo-app>Loading...</photo-app> <!--3-->
+  <script>
+
+   System.config({
+      baseURL: "/",
+      transpiler: 'typescript',
+      typescriptOptions: {emitDecoratorMetadata: true},
+      packages: {
+        "app": {
+          "defaultExtension": "ts",
+          "main": "main.ts"
+        }
+      }
+    });
+    System.import('app');
+ </script>  <!--4-->
+</body>
+</html>

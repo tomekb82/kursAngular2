@@ -1,6 +1,12 @@
 import * as express from "express";
+import * as path from "path";
 
 const app = express();
+
+/* Serve static resources: client angularjs app */
+app.use('/',             express.static(path.join(__dirname, '..', 'client')));
+app.use('/node_modules', express.static(path.join(__dirname, '..', 'node_modules')));
+
 
 /* Model*/
 class Photo {
@@ -33,8 +39,9 @@ function getPhoto(photoId: number): Photo {
 
 /* Http API */
 app.get('/', (req, res) => {
-     res.send('The URL for photos is http://localhost:8000/photos');
- });
+    //res.send('The URL for photos is http://localhost:8000/photos');
+    res.sendFile(path.join(__dirname, '../client/index.html'));
+});
 
 app.get('/photos', (req, res) => {
     res.json(getPhotos());
