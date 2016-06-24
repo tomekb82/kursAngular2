@@ -51,3 +51,7 @@ control-messages div {
   color: #E82C0C;
   margin: 6px 0;
 }
+
+.timer {
+    color:#9D9D9D !important;
+}

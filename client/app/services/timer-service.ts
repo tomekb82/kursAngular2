@@ -1,8 +1,8 @@
 import {Observable} from 'rxjs/Rx';
 
-export class CustomObservableService{
+export class TimerObservableService{
 
-    createObservableService(): Observable{
+    getTime(): Observable{
 
         return new Observable(
             observer => {
