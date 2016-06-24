@@ -20,7 +20,7 @@
   <!--<script src="../client/config.js"></script> <!--2-->
 </head>
 <body>
-  <span id="messageGoesHere"></span> 
+  <!-- <span id="messageGoesHere"></span>  -->
   <photo-app>Loading...</photo-app> <!--3-->
   <script>
 
@@ -38,18 +38,18 @@
     System.import('app');
  </script>  <!--4-->
 
- <script type="text/javascript">
+ <!-- <script type="text/javascript">
     var ws = new WebSocket("ws://localhost:8085");
-
+ 
     ws.onmessage = function(event) {
         var mySpan = document.getElementById("messageGoesHere");
         mySpan.innerHTML=event.data;
     };
-
+ 
     ws.onerror = function(event){
         console.log("Error ", event)
     }
-</script>
+ </script> -->
 
 </body>
 </html>

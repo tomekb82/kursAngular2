@@ -2,6 +2,7 @@ import * as express from "express";
 import * as path from "path";
 //import * as ws from "ws";
 import {Server} from "ws";
+import {Message} from './model/message';
 
 const app = express();
 
@@ -61,14 +62,57 @@ var wsServer: Server = new Server({port:8085});
 
 console.log('WebSocket server is listening on port 8085');
 
+const OPEN = 1; // The ready state of WebSocket
+
+let inputMessage = 'Hello';
+
+let messageInterval = setInterval(()=>{
+    var latestMessage = generateMessage(inputMessage);
+
+    broadcast(latestMessage);
+}, 1000);
+
+let subscribers = [];
+
 wsServer.on('connection',
            websocket => {
-               websocket.send('This message was pushed by the WebSocket server');
+
+               //websocket.send('This message was pushed by the WebSocket server');
 
                websocket.on('message',
-                              message => console.log("Server received: %s", message));
-
+                      message => {
+                          console.log("client sent %s", message);
+                          if (message== "subscribe"){
+                              subscribers.push(websocket);
+                          } else if (message == "unsubscribe"){
+                              // remove this client from subscribers
+                              subscribers.splice(subscribers.indexOf(websocket), 1);
+                          } else if (message != inputMessage){
+                            inputMessage = message;
+                          }
+                      });
            });
+
+function generateMessage (inputMessage: string): string {
+   let message: Message = new Message();
+   message.message = inputMessage;
+   message.sendDate = new Date();
+   return JSON.stringify(message);
+}
+
+ function broadcast(message: string){
+    //wsServer.clients
+        subscribers
+        .forEach(client => {
+            if (client.readyState == OPEN) {
+                client.send(message);
+            } else{
+                // client disconnected - remove it from subscribers
+                subscribers.splice(subscribers.indexOf(client), 1);
+            }
+          }
+        );
+
 
 // Broadcasting to all clients
 /*
