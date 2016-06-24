@@ -31,6 +31,19 @@ import { Observable} from "rxjs/Observable";
     <div class="row">
       <div class="col-md-12">
         <div class="form-group">
+          <h4> Observable with async in template </h4>
+          <ul>
+            <li *ngFor="#photo of theDataSource | async">
+              {{photo.title}}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>      
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
           <input placeholder="Filter products by title"
                  class="form-control" type="text"
                  [ngFormControl]="titleFilter">
@@ -47,8 +60,9 @@ import { Observable} from "rxjs/Observable";
 })
 export default class HomeComponent {
  
-  photos: Photo[] = []; // <1>
-  theDataSource: Observable;
+  photos: Photo[] = []; 
+  //products: Observable<Array<String>>;
+  theDataSource: Observable<Array<String>>;//Observable;
 
   titleFilter: Control = new Control();
   filterCriteria: string;

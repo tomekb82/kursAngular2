@@ -1,5 +1,8 @@
 
-import {bind} from 'angular2/core';
+import { Http} from 'angular2/http';
+import { Injectable} from "angular2/core";
+import { Observable} from "rxjs/Observable";
+import 'rxjs/add/operator/map';
 
 export class Photo {
   constructor(
@@ -23,13 +26,21 @@ export class Review {
   }
 }
 
+@Injectable()
 export class PhotoService {
+
+  constructor( private http: Http){}
+
   getPhotos(): Photo[] {
     return photos.map(p => new Photo(p.id, p.title, p.year, p.rating, p.description, p.categories));
   }
-  getPhoto(photoId: number): Photo {
+  /*getPhoto(photoId: number): Photo {
     return photos.find(p => p.id === photoId);
-  }
+  }*/
+  getPhoto(photoId: string): Observable<any>{
+       return this.http.get(`/photos/${photoId}`)
+           .map(res => res.json());
+    }
   getReviewsForPhoto(photoId: number): Review[] {
     return reviews
         .filter(r => r.photoId === photoId)

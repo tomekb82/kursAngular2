@@ -30,6 +30,9 @@ export default class SearchComponent {
 
 	searchTextarea: string = ""
 
+  photoTitle: string;
+  photoYear: string;
+
   onSelectEvent({target}):void{
     this.searchPlace=target.value;
   }
@@ -69,6 +72,19 @@ export default class SearchComponent {
   getYearFromServer(category) {
         this.searchYear = 12*Math.random().toFixed(4);
         console.log("The year for the ${category} is:" + this.searchYear );
-    }
+  }
+
+
+  getPhoto(formValue){
+      this.photoService.getPhoto(formValue.photoID)
+        .subscribe(
+            data => {
+              this.photoTitle = data.title;
+              this.photoYear = data.year;
+            },
+            err => console.log("Can't get photo details. Error code: %s, URL: %s ",  err.status, err.url),
+            () =>    console.log( 'Done')
+        );
+  }
     
 }

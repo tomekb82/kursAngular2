@@ -61,6 +61,18 @@
  </div> 
 </form>
 
+
+<h4>Find Photo By ID Using PhotoService</h4>
+<form #f="ngForm" (ngSubmit) = "getPhoto(f.value)" >
+  <label for="photoID">Enter Photo ID</label>
+  <input id="photoID" type="number" ngControl="photoID">
+  <button type="submit">Find Photo</button>
+</form>
+
+<pre>{{ photoTitle}} {{photoYear}}</pre>
+
+
+
  <div *ngIf="isDev" class="well" >
   <div class="row">
     <div class="col-md-12">
