@@ -1,5 +1,7 @@
 import * as express from "express";
 import * as path from "path";
+//import * as ws from "ws";
+import {Server} from "ws";
 
 const app = express();
 
@@ -37,23 +39,40 @@ function getPhoto(photoId: number): Photo {
     return photos.find(p => p.id === photoId);
 }
 
-/* Http API */
+// HTTP Server
 app.get('/', (req, res) => {
     //res.send('The URL for photos is http://localhost:8000/photos');
     res.sendFile(path.join(__dirname, '../client/index.html'));
 });
-
 app.get('/photos', (req, res) => {
     res.json(getPhotos());
 });
-
 app.get('/photos/:id', (req, res) => {
-    console.log("id===" + req.params.id);
     res.json(getPhoto(parseInt(req.params.id)));
 });
-
-
 const server = app.listen(8000, "localhost", () => {
     const {address, port} = server.address();
-    console.log('Listening on %s %s', address, port);
+    console.log('HTTP Server is listening on %s', port);
 });
+
+
+// WebSocket Server
+var wsServer: Server = new Server({port:8085});
+
+console.log('WebSocket server is listening on port 8085');
+
+wsServer.on('connection',
+           websocket => {
+               websocket.send('This message was pushed by the WebSocket server');
+
+               websocket.on('message',
+                              message => console.log("Server received: %s", message));
+
+           });
+
+// Broadcasting to all clients
+/*
+wsServer.on('connection',
+    websocket => wsServer.clients
+        .forEach(
+            client =>client.send('This message was pushed by the WebSocket server')));*/

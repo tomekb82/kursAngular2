@@ -15,9 +15,24 @@
       2. Second one has a grid with photos.
     -->
     <div class="col-md-9">
+      
       <router-outlet></router-outlet>    
       
   </div>
 </div>
 
 <photo-footer></photo-footer>
+
+<script type="text/javascript">
+    var ws = new WebSocket("ws://localhost:8085");
+
+    ws.onmessage = function(event) {
+        console.log("WS data=" event.data);
+        var mySpan = document.getElementById("messageGoesHere");
+        mySpan.innerHTML=event.data;
+    };
+
+    ws.onerror = function(event){
+        console.log("Error ", event)
+    }
+</script>

@@ -25,9 +25,8 @@ import { Observable} from "rxjs/Observable";
         <photo-carousel></photo-carousel>
       </div>
     </div>
-    
+   
     <hr>
-    
     <div class="row">
       <div class="col-md-12">
         <div class="form-group">
@@ -67,6 +66,7 @@ export default class HomeComponent {
   filterCriteria: string;
 
   constructor(private photoService: PhotoService, private http: Http) { 
+
     //this.photos = this.photoService.getPhotos(); 
     this.theDataSource = this.http.get('/photos')
             .map(res => res.json());
@@ -102,6 +102,7 @@ export default class HomeComponent {
                 console.log("Can't get photos. Error code: %s, URL: %s ",  err.status, err.url),
             () => console.log('Photo(s) are retrieved')
         );
+
     }
 
 

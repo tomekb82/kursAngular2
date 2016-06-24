@@ -22,7 +22,11 @@
         <li><a [routerLink]="['./Contact', ['Chat']]">Chat</a></li>
         <li><a [routerLink]="['/About']">About</a></li>
       </ul>
-      <timer class="pull-right timer"></timer>
+      <div class="pull-right timer">
+        <timer></timer>
+        <br>
+        {{myIp}}
+       </div>
     </div>
 
     <!-- /.navbar-collapse -->
