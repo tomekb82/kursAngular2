@@ -31,20 +31,27 @@ export class PhotoService {
 
   constructor( private http: Http){}
 
+  /*
   getPhotos(): Photo[] {
     return photos.map(p => new Photo(p.id, p.title, p.year, p.rating, p.description, p.categories));
   }
+  */
   /*getPhoto(photoId: number): Photo {
     return photos.find(p => p.id === photoId);
   }*/
+  getPhotos(): Observable<Array<Photo>>{
+    return this.http.get('/photos')
+      .map(res => res.json());
+  }
+
   getPhoto(photoId: string): Observable<any>{
-       return this.http.get(`/photos/${photoId}`)
-           .map(res => res.json());
-    }
+    return this.http.get(`/photos/${photoId}`)
+      .map(res => res.json());
+  }
   getReviewsForPhoto(photoId: number): Review[] {
     return reviews
-        .filter(r => r.photoId === photoId)
-        .map(r => new Review(r.id, r.photoId, new Date(r.timestamp), r.user, r.rating, r.comment));
+      .filter(r => r.photoId === photoId)
+      .map(r => new Review(r.id, r.photoId, new Date(r.timestamp), r.user, r.rating, r.comment));
   }
   getCategories(): string[] {
     return ['home', 'garden', 'city', 'shop', 'holidays', 'sea'];

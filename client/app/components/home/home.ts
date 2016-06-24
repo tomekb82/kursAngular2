@@ -61,14 +61,13 @@ import { Observable} from "rxjs/Observable";
 export default class HomeComponent {
  
   photos: Photo[] = []; 
-  //products: Observable<Array<String>>;
   theDataSource: Observable<Array<String>>;//Observable;
 
   titleFilter: Control = new Control();
   filterCriteria: string;
 
-  constructor(private photoService: PhotoService, private http: Http) { // <2>
-    //this.photos = this.photoService.getPhotos(); // <3>
+  constructor(private photoService: PhotoService, private http: Http) { 
+    //this.photos = this.photoService.getPhotos(); 
     this.theDataSource = this.http.get('/photos')
             .map(res => res.json());
 
@@ -93,7 +92,16 @@ export default class HomeComponent {
                 console.log("Can't get photos. Error code: %s, URL: %s ",  err.status, err.url),
             () => console.log('Photo(s) are retrieved')
         );
-
+        
+        this.photoService.getPhotos()
+          .subscribe(
+            data => {
+                this.photos=data;
+            },
+            err =>
+                console.log("Can't get photos. Error code: %s, URL: %s ",  err.status, err.url),
+            () => console.log('Photo(s) are retrieved')
+        );
     }
 
 
