@@ -2,7 +2,6 @@ import {Component, } from 'angular2/core';
 import {Control, NgFormControl} from 'angular2/common';
 import CarouselComponent from '../carousel/carousel';
 import PhotoItemComponent from '../photo-item/photo-item';
-import MessageSubscriberComponent from '../message/message-subscriber'
 import {Photo, PhotoService, MockPhotoService} from '../../services/photo-service';
 import {FilterPipe} from '../../pipes/filter-pipe'
 import 'rxjs/add/operator/debounceTime';
@@ -16,16 +15,11 @@ import { Observable} from "rxjs/Observable";
   directives: [
     NgFormControl, 
     CarouselComponent,
-    PhotoItemComponent,
-    MessageSubscriberComponent
+    PhotoItemComponent
   ],
   pipes: [FilterPipe],
   styleUrls: ['/home.css'],
   template: `
-
-    <message-subscriber> </message-subscriber>
-
-
     <div class="row carousel-holder">
       <div class="col-md-12">
         <photo-carousel></photo-carousel>

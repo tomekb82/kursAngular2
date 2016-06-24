@@ -1,4 +1,3 @@
-
 import {Component} from 'angular2/core';
 import 'rxjs/add/operator/map';
 import {MessageService} from "../../services/message-service";
