@@ -1,44 +1,17 @@
 import * as express from "express";
 import * as path from "path";
 //import * as ws from "ws";
-import {Server} from "ws";
+import {Server as HttpServer} from 'http';
+import {Server as WsServer} from 'ws';
+import {Server as SubscriberServer} from 'ws';
 import {Message} from './model/message';
+import {Photo, Review, getPhotos, getPhotoById, getReviewsByPhotoId} from './model/photos';
 
 const app = express();
 
 /* Serve static resources: client angularjs app */
 app.use('/',             express.static(path.join(__dirname, '..', 'client')));
 app.use('/node_modules', express.static(path.join(__dirname, '..', 'node_modules')));
-
-
-/* Model*/
-class Photo {
-  constructor(
-    public id: number,
-    public title: string,
-    public year: number
-    //public rating: number,
-    //public description: string,
-    //public categories: Array<string>
-    ) {}
-}
-
-/* Example data */
-const photos = [
-    new Photo(0, "First Photo", 2014),
-    new Photo(1, "Second Photo", 2015),
-    new Photo(2, "Third Photo", 2016)
-];
-
-/* Helper functions */
-function getPhotos(): Photo[] {
-    return photos;
-}
-
-function getPhoto(photoId: number): Photo {
-    console.log("id=" + photoId);
-    return photos.find(p => p.id === photoId);
-}
 
 // HTTP Server
 app.get('/', (req, res) => {
@@ -49,36 +22,88 @@ app.get('/photos', (req, res) => {
     res.json(getPhotos());
 });
 app.get('/photos/:id', (req, res) => {
-    res.json(getPhoto(parseInt(req.params.id)));
+    res.json(getPhotoById(parseInt(req.params.id)));
 });
-const server = app.listen(8000, "localhost", () => {
-    const {address, port} = server.address();
+app.get('/photos/:id/reviews', (req, res) => {
+  res.json(getReviewsByPhotoId(parseInt(req.params.id)));
+});
+const httpServer: HttpServer = app.listen(8000, "localhost", () => {
+    const {address, port} = httpServer.address();
     console.log('HTTP Server is listening on %s', port);
 });
 
 
 // WebSocket Server
-var wsServer: Server = new Server({port:8085});
+var wsSubcriberServer: SubscriberServer = new SubscriberServer({port:8085});
+// Create the WebSocket server listening to the same port as HTTP server
+const wsPhotoServer: WsServer = new WsServer({server: httpServer});
 
-console.log('WebSocket server is listening on port 8085');
+console.log('Subcriber WebSocket server is listening on 8085');
+console.log('Photo WebSocket server is listening on 8080');
 
+///////////////////////////////////////////////////////////////////////////
+wsPhotoServer.on('connection', ws => {
+  ws.on('message', message => {
+    let subscriptionRequest = JSON.parse(message);
+    subscribeToProductMessage(ws, subscriptionRequest.productId);
+  });
+});
+
+setInterval(() => {
+  generateNewMessages();
+  broadcastNewMessagesToSubscribers();
+}, 2000);
+
+
+// The map key is a reference to WebSocket connection that represents a user.
+const subscriptions = new Map<any, number[]>();
+
+function subscribeToProductMessage(client, photoId: number): void {
+  let photos = subscriptions.get(client) || [];
+  subscriptions.set(client, [...photos, photoId]);
+}
+
+// Message generator
+const currentMessages = new Map<number, string>();
+
+function generateNewMessages() {
+  getPhotos().forEach(p => {
+    const currentMessage = currentMessages.get(p.id);
+    const newMessage = 'Hello' + Math.random(); 
+    currentMessages.set(p.id, newMessage);
+  });
+}
+
+function broadcastNewMessagesToSubscribers() {
+
+  subscriptions.forEach((photos: number[], ws: WebSocket) => {
+    if (ws.readyState === 1) { // 1 - READY_STATE_OPEN
+      let newMessages = photos.map(pid => ({
+        photoId: pid,
+        message: currentMessages.get(pid)
+      }));
+      ws.send(JSON.stringify(newMessages));
+    } else {
+      subscriptions.delete(ws);
+    }
+  });
+}
+
+//////////////////////////////////////////////////////////////////////////
 const OPEN = 1; // The ready state of WebSocket
 
 let inputMessage = 'Hello';
 
 let messageInterval = setInterval(()=>{
     var latestMessage = generateMessage(inputMessage);
-
     broadcast(latestMessage);
 }, 1000);
 
 let subscribers = [];
 
-wsServer.on('connection',
+// Send message to subscribers 
+wsSubcriberServer.on('connection',
            websocket => {
-
-               //websocket.send('This message was pushed by the WebSocket server');
-
                websocket.on('message',
                       message => {
                           console.log("client sent %s", message);
@@ -92,6 +117,7 @@ wsServer.on('connection',
                           }
                       });
            });
+
 
 function generateMessage (inputMessage: string): string {
    let message: Message = new Message();
