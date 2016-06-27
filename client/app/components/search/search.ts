@@ -8,7 +8,7 @@ import {Control,
 import 'rxjs/add/operator/debounceTime';
 import LogDirective from '../../directives/logging';
 import {PhotoService} from '../../services/photo-service';
-import {ValidationService} from '../../services/validaton-service';
+import {ValidationService} from '../../services/validation-service';
 import {SearchProcessorComponent} from './search-processor';
 
 @Component({

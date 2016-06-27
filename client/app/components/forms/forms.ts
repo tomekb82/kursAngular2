@@ -10,7 +10,7 @@ import {
   FormBuilder	
 } from 'angular2/common';
 
-import {ValidationService} from '../../services/validaton-service';
+import {ValidationService} from '../../services/validation-service';
 import {ControlMessages } from './control-messages';
 
 

@@ -44,8 +44,10 @@ console.log('Photo WebSocket server is listening on 8080');
 ///////////////////////////////////////////////////////////////////////////
 wsPhotoServer.on('connection', ws => {
   ws.on('message', message => {
+
     let subscriptionRequest = JSON.parse(message);
-    subscribeToProductMessage(ws, subscriptionRequest.productId);
+    console.log(subscriptionRequest);
+    subscribeToProductMessage(ws, subscriptionRequest.photoId);
   });
 });
 
@@ -59,6 +61,7 @@ setInterval(() => {
 const subscriptions = new Map<any, number[]>();
 
 function subscribeToProductMessage(client, photoId: number): void {
+  console.log('subscribeToProductMessage, photoId=' + photoId);
   let photos = subscriptions.get(client) || [];
   subscriptions.set(client, [...photos, photoId]);
 }
@@ -78,10 +81,12 @@ function broadcastNewMessagesToSubscribers() {
 
   subscriptions.forEach((photos: number[], ws: WebSocket) => {
     if (ws.readyState === 1) { // 1 - READY_STATE_OPEN
+      console.log('broadcastNewMessagesToSubscribers');
       let newMessages = photos.map(pid => ({
         photoId: pid,
         message: currentMessages.get(pid)
       }));
+      console.log('broadcastNewMessagesToSubscribers, sending message=' + JSON.stringify(newMessages));
       ws.send(JSON.stringify(newMessages));
     } else {
       subscriptions.delete(ws);

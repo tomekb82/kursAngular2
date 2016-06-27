@@ -25,21 +25,7 @@ import { Observable} from "rxjs/Observable";
         <photo-carousel></photo-carousel>
       </div>
     </div>
-   
-    <hr>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="form-group">
-          <h4> Observable with async in template </h4>
-          <ul>
-            <li *ngFor="#photo of theDataSource | async">
-              {{photo.title}}
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>      
-
+  
     <div class="row">
       <div class="col-md-12">
         <div class="form-group">
@@ -51,7 +37,7 @@ import { Observable} from "rxjs/Observable";
     </div>
 
     <div class="row">
-      <div *ngFor="#photo of photos | filter:'title':filterCriteria" class="col-sm-4 col-lg-4 col-md-4">
+      <div *ngFor="#photo of photos | async | filter:'title':filterCriteria" class="col-sm-4 col-lg-4 col-md-4">
         <photo-item [photo]="photo"></photo-item>
       </div>
     </div>
@@ -59,18 +45,12 @@ import { Observable} from "rxjs/Observable";
 })
 export default class HomeComponent {
  
-  photos: Photo[] = []; 
-  theDataSource: Observable<Array<String>>;//Observable;
+  photos: Observable<Photo[]>;
 
   titleFilter: Control = new Control();
   filterCriteria: string;
 
   constructor(private photoService: PhotoService, private http: Http) { 
-
-    //this.photos = this.photoService.getPhotos(); 
-    this.theDataSource = this.http.get('/photos')
-            .map(res => res.json());
-
     this.titleFilter.valueChanges
       .debounceTime(100)
       .subscribe(
@@ -79,21 +59,9 @@ export default class HomeComponent {
   }
 
   ngOnInit(){
-        // Get the data from the server
-        this.theDataSource.subscribe(
-            data => {
-                if (Array.isArray(data)){
-                    this.photos=data;
-                } else{
-                    this.photos.push(data);
-                }
-            },
-            err =>
-                console.log("Can't get photos. Error code: %s, URL: %s ",  err.status, err.url),
-            () => console.log('Photo(s) are retrieved')
-        );
-        
-        this.photoService.getPhotos()
+    this.photos = this.photoService.getPhotos();
+    // zamiennie z | async 
+    /*this.photoService.getPhotos()
           .subscribe(
             data => {
                 this.photos=data;
@@ -101,8 +69,14 @@ export default class HomeComponent {
             err =>
                 console.log("Can't get photos. Error code: %s, URL: %s ",  err.status, err.url),
             () => console.log('Photo(s) are retrieved')
-        );
+    );*/
 
+    this.photoService.searchEvent
+      .subscribe(
+        params => this.photos = this.photoService.search(params),
+          err =>  console.log("Can't get photos. Error code: %s, URL: %s "),
+        () => console.log('DONE')
+    );  
     }
 
 

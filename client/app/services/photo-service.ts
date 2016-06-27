@@ -27,6 +27,12 @@ export class Review {
   }
 }
 
+export interface PhotoSearchParams {
+  title: string;
+  place: string;
+  year: number;
+}
+
 @Injectable()
 export class PhotoService {
 
@@ -34,33 +40,40 @@ export class PhotoService {
 
   constructor( private http: Http){}
 
-  search(params: ProductSearchParams): Observable<Product[]> {
-    return this.http
-      .get('/products', {search: encodeParams(params)})
-      .map(response => response.json());
-  }
-
   /*
   getPhotos(): Photo[] {
     return photos.map(p => new Photo(p.id, p.title, p.year, p.rating, p.description, p.categories));
   }
-  */
-  /*getPhoto(photoId: number): Photo {
+  getPhoto(photoId: number): Photo {
     return photos.find(p => p.id === photoId);
-  }*/
-  getPhotos(): Observable<Product[]>{
-    return this.http.get('/photos')
-      .map(res => res.json());
-  }
-
-  getPhoto(photoId: string): Observable<any>{
-    return this.http.get(`/photos/${photoId}`)
-      .map(res => res.json());
   }
   getReviewsForPhoto(photoId: number): Review[] {
     return reviews
       .filter(r => r.photoId === photoId)
       .map(r => new Review(r.id, r.photoId, new Date(r.timestamp), r.user, r.rating, r.comment));
+  }*/
+
+  search(params: PhotoSearchParams): Observable<Photo[]> {
+    return this.http
+      .get('/photos', {search: encodeParams(params)})
+      .map(response => response.json());
+  }
+  getPhotos(): Observable<Product[]>{
+    return this.http.get('/photos')
+      .map(res => res.json());
+  }
+
+  getPhoto(photoId: number): Observable<Product>{
+    return this.http.get(`/photos/${photoId}`)
+      .map(res => res.json());
+  }
+  
+  getReviewsForPhoto(photoId: number): Observable<Review[]> {
+    return this.http
+      .get(`/photos/${photoId}/reviews`)
+      .map(response => response.json())
+      .map(reviews => reviews.map(
+        (r: any) => new Review(r.id, r.photoId, new Date(r.timestamp), r.user, r.rating, r.comment)));
   }
   getCategories(): string[] {
     return ['home', 'garden', 'city', 'shop', 'holidays', 'sea'];
@@ -68,17 +81,31 @@ export class PhotoService {
  
 }
 
+/**
+ * Encodes the object into a valid query string.
+ */
+function encodeParams(params: any): URLSearchParams {
+  return Object.keys(params)
+    .filter(key => params[key])
+    .reduce((accum: URLSearchParams, key: string) => {
+      accum.append(key, params[key]);
+      return accum;
+    }, new URLSearchParams());
+}
+
+
+
 // Another service version implements the initial one as interface.
 export class MockPhotoService implements PhotoService { // <2>
   getPhoto(id): Photo {
     // Code making an HTTP request to get actual photo details
     // would go here
-    return new Photo(0, "Mock Photo", 2015, 5.6, 
+    return new Photo(0, "Mock Photo", 2015, "r", 5.6, 
       "This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       ["home"]);
   }
   getPhotos(): Photo[] {
-    return photos.map(p => new Photo(p.id, p.title, p.year, p.rating, p.description, p.categories));
+    return photos.map(p => new Photo(p.id, p.title, p.year, p.place, p.rating, p.description, p.categories));
   }
   getReviewsForPhoto(photoId: number): Review[] {
     return reviews
@@ -92,6 +119,7 @@ var photos = [
     "id": 0,
     "title": "First Photo",
     "year": 2015,
+    "place" : "Warsaw",
     "rating": 4.3,
     "description": "This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     "categories": ["home", "party"]
@@ -100,6 +128,7 @@ var photos = [
     "id": 1,
     "title": "Second Photo",
     "year": 2016,
+    "place" : "Warsaw",
     "rating": 3.5,
     "description": "This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     "categories": ["children"]
@@ -108,6 +137,7 @@ var photos = [
     "id": 2,
     "title": "Third Photo",
     "year": 2014,
+    "place" : "Warsaw",
     "rating": 4.2,
     "description": "This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     "categories": ["home"]
@@ -116,6 +146,7 @@ var photos = [
     "id": 3,
     "title": "Fourth Photo",
     "year": 2015,
+    "place" : "Warsaw",
     "rating": 3.9,
     "description": "This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     "categories": ["children"]
@@ -124,6 +155,7 @@ var photos = [
     "id": 4,
     "title": "Fifth Photo",
     "year": 2013,
+    "place" : "Warsaw",
     "rating": 5,
     "description": "This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     "categories": ["city", "garden"]
@@ -132,6 +164,7 @@ var photos = [
     "id": 5,
     "title": "Sixth Photo",
     "year": 2016,
+    "place" : "Warsaw",
     "rating": 4.6,
     "description": "This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     "categories": ["walk"]

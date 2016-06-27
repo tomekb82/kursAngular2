@@ -1,7 +1,10 @@
 import {Component, ViewEncapsulation, bind, provide, Inject, Directive, Output, EventEmitter} from 'angular2/core';
-import {NgFor} from 'angular2/common';  
-import {RouteConfig,  ROUTER_DIRECTIVES, RouteParams, RouteData} from 'angular2/router';
+import {NgFor, NgClass} from 'angular2/common';  
+import {RouteConfig,  ROUTER_DIRECTIVES, RouteParams, RouteData, OnDeactivate} from 'angular2/router';
+import {Subscription} from 'rxjs/Subscription';
+
 import {Photo, Review, PhotoService, MockPhotoService} from '../../services/photo-service';
+import {MessageService} from '../../services/message-service'
 import StarsComponent from '../stars/stars';
 
 //uwaga: nie dziala jak jest dolaczone w osobnym pliku
@@ -75,49 +78,93 @@ export default class PhotoParametersComponent {
 @Component({
   selector: 'photo-detail-page',
   //providers: [provide(PhotoService, {useClass: MockPhotoService})], // mock using mock class
-  providers: [provide(PhotoService,{useFactory:              // mock using factory
+  /*providers: [provide(PhotoService,{useFactory:              // mock using factory
             (isDev) =>{
                       if (isDev){
                         return new MockPhotoService(); 
                       } else{
                         return new PhotoService();
                       }
-            }, deps:["IS_DEV_ENVIRONMENT"]})],
+            }, deps:["IS_DEV_ENVIRONMENT"]})],*/
   templateUrl: 'app/components/photo-detail/photo-detail.html',
   styles: ['photo-stars.large {font-size: 24px;} .env-prod {background: #286090; color: white;} .env-dev {background: red}'],
-  directives: [ROUTER_DIRECTIVES, NgFor, PhotoDescriptionComponent, PhotoParametersComponent, StarsComponent]
+  directives: [ROUTER_DIRECTIVES, NgFor, NgClass, 
+    PhotoDescriptionComponent, 
+    PhotoParametersComponent, 
+    StarsComponent]
 })
 @RouteConfig([
     {path: '/', component: PhotoParametersComponent , as: 'PhotoParameters'  },
     {path: '/description', component: PhotoDescriptionComponent, as: 'PhotoDescription'  }
 ])
-export default class PhotoDetailComponent {
+export default class PhotoDetailComponent implements OnDeactivate {
   photo: Photo;
   reviews: Review[];
+  
   type: string = "dev";
   showParams = false;
 
+  currentMessage: number;
   newComment: string;
   newRating: number;
 
   isReviewHidden: boolean = true;
+  isWatching: boolean = false;
 
 
   toggleValue = function(){
     this.showParams = !this.showParams;
   }
 
-  constructor(params: RouteParams, data: RouteData, private photoService: PhotoService, @Inject('IS_DEV_ENVIRONMENT') private isDev: boolean){
+  private subscription: Subscription;
+
+  constructor(params: RouteParams, 
+    data: RouteData, 
+    private photoService: PhotoService, 
+    private messageService: MessageService, 
+    @Inject('IS_DEV_ENVIRONMENT') private isDev: boolean){
+
     if(data.get('isProd')){
       this.type = "prod";
     }
 
-    let photoId: number = parseInt(params.get('photoId'));
-    
-    this.photo = photoService.getPhoto(photoId);
-    this.reviews = photoService.getReviewsForPhoto(this.photo.id);
+    const photoId = parseInt(params.get('photoId'));
+
+    photoService
+      .getPhoto(photoId)
+      .subscribe(
+        photo => {
+          this.photo = photo;
+          this.currentMessage = "Test";
+        },
+        error => console.error(error));
+
+    photoService
+      .getReviewsForPhoto(photoId)
+      .subscribe(
+        reviews => this.reviews = reviews,
+        error => console.error(error));
   }
 
+  toggleWatchPhoto() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+      this.subscription = null;
+      this.isWatching = false;
+    } else {
+      this.isWatching = true;
+      this.subscription = this.messageService.watchPhoto(this.photo.id)
+        .subscribe(
+          photos => this.currentMessage = photos.find((p: any) => p.photoId === this.photo.id).message,
+          error => console.log(error));
+    }
+  }
+
+  routerOnDeactivate(): any {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   addReview() {
     let review = new Review(0, this.photo.id, new Date(), 'Anonymous',

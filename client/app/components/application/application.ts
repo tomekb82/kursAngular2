@@ -26,6 +26,7 @@ import MessageSubscriberComponent from '../message/message-subscriber';
    SearchComponent,
    NavbarComponent,
    HomeComponent,
+
    PhotoDetailComponent,
    ContactComponent,
    ChatComponent,
