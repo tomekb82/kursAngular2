@@ -1,11 +1,11 @@
 import {Component} from 'angular2/core';
 import 'rxjs/add/operator/map';
-import {MessageService} from "../../services/message-service";
+import {WebSocketService} from "../../services/websocket-service";
 import {Message} from "./message";
 
 @Component({
   selector: 'message-subscriber',
-  providers: [ MessageService ],
+  providers: [ WebSocketService ],
   template: `<h3>Websocket communication with server</h3>
              <h4> Message status: {{status}}</h4>
 
@@ -27,7 +27,7 @@ export default class MessageSubscriberComponent {
 
   messageFromServer: string;
 
-  constructor(private wsService: MessageService) {
+  constructor(private wsService: WebSocketService) {
     this.wsService.createObservableSocket("ws://localhost:8085")
       .map(res => JSON.parse(res))
       .subscribe(
@@ -50,7 +50,7 @@ export default class MessageSubscriberComponent {
 
   sendMessageToServer(formValue){
         console.log("Sending message '" + formValue.inputMessage + "' to WebSocket server");
-        this.wsService.sendMessage(formValue.inputMessage);
+        this.wsService.sendInputMessage(formValue.inputMessage);
     }
 }
 

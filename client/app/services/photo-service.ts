@@ -1,6 +1,6 @@
 
-import { Http} from 'angular2/http';
-import { Injectable} from "angular2/core";
+import { Http, URLSearchParams} from 'angular2/http';
+import { EventEmitter, Injectable} from "angular2/core";
 import { Observable} from "rxjs/Observable";
 import 'rxjs/add/operator/map';
 
@@ -9,6 +9,7 @@ export class Photo {
     public id: number,
     public title: string,
     public year: number,
+    public place: string,
     public rating: number,
     public description: string,
     public categories: Array<string>) {
@@ -29,7 +30,15 @@ export class Review {
 @Injectable()
 export class PhotoService {
 
+  searchEvent: EventEmitter = new EventEmitter();
+
   constructor( private http: Http){}
+
+  search(params: ProductSearchParams): Observable<Product[]> {
+    return this.http
+      .get('/products', {search: encodeParams(params)})
+      .map(response => response.json());
+  }
 
   /*
   getPhotos(): Photo[] {
@@ -39,7 +48,7 @@ export class PhotoService {
   /*getPhoto(photoId: number): Photo {
     return photos.find(p => p.id === photoId);
   }*/
-  getPhotos(): Observable<Array<Photo>>{
+  getPhotos(): Observable<Product[]>{
     return this.http.get('/photos')
       .map(res => res.json());
   }
