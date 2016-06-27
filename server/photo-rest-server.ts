@@ -44,9 +44,7 @@ console.log('Photo WebSocket server is listening on 8080');
 ///////////////////////////////////////////////////////////////////////////
 wsPhotoServer.on('connection', ws => {
   ws.on('message', message => {
-
     let subscriptionRequest = JSON.parse(message);
-    console.log(subscriptionRequest);
     subscribeToProductMessage(ws, subscriptionRequest.photoId);
   });
 });

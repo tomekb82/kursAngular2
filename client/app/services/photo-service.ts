@@ -1,6 +1,6 @@
 
-import { Http, URLSearchParams} from 'angular2/http';
 import { EventEmitter, Injectable} from "angular2/core";
+import { Http, URLSearchParams} from 'angular2/http';
 import { Observable} from "rxjs/Observable";
 import 'rxjs/add/operator/map';
 
@@ -53,7 +53,11 @@ export class PhotoService {
       .map(r => new Review(r.id, r.photoId, new Date(r.timestamp), r.user, r.rating, r.comment));
   }*/
 
-  search(params: PhotoSearchParams): Observable<Photo[]> {
+  test(params: PhotoSearchParams  ){
+    console.log("test=" + JSON.stringify(params));
+  }
+  search(params/*: PhotoSearchParams*/): Observable<Photo[]> {
+    console.log("search=" + JSON.stringify(params));
     return this.http
       .get('/photos', {search: encodeParams(params)})
       .map(response => response.json());

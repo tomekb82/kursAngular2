@@ -3,7 +3,9 @@ import {Control,
   ControlGroup,
   FormBuilder,
   Validators,
-  FORM_DIRECTIVES 
+  CORE_DIRECTIVES,
+  FORM_DIRECTIVES,
+  FORM_PROVIDERS
 } from 'angular2/common';
 import 'rxjs/add/operator/debounceTime';
 import LogDirective from '../../directives/logging';
@@ -13,8 +15,8 @@ import {SearchProcessorComponent} from './search-processor';
 
 @Component({
   selector: 'photo-search',
-  providers: [PhotoService],
-  directives: [FORM_DIRECTIVES, LogDirective, SearchProcessorComponent],
+  providers: [PhotoService, FORM_PROVIDERS],
+  directives: [CORE_DIRECTIVES, FORM_DIRECTIVES, LogDirective, SearchProcessorComponent],
   templateUrl: 'app/components/search/search.html',
   styles: ['.textarea {height: 100px; width: 220px;}'],
 })
@@ -65,7 +67,12 @@ export default class SearchComponent {
 
   onSearch() {
     if (this.formModel.valid) {
-      console.log(this.formModel.value);
+      
+      this.photoService.searchEvent.emit(this.formModel.value);
+      this.photoService.test(this.formModel.value);
+      console.log("onSearch, form valid" + JSON.stringify(this.formModel.value));
+    }else{
+      console.log("onSearch, form invalid");
     }
   }
 

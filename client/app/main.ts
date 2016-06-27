@@ -9,7 +9,7 @@ import {PHOTO_APP_SERVICES} from './services/services';
 //import {PhotoService} from "./services/photo-service";
 //const DEFAULT_SERVICE_PROVIDERS = [ PhotoService ];
 
-enableProdMode();
+//enableProdMode();
 
 bootstrap(ApplicationComponent, [
     FORM_PROVIDERS,

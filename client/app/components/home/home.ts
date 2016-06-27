@@ -51,33 +51,21 @@ export default class HomeComponent {
   filterCriteria: string;
 
   constructor(private photoService: PhotoService, private http: Http) { 
+    this.photos = this.photoService.getPhotos();
+
     this.titleFilter.valueChanges
       .debounceTime(100)
       .subscribe(
         value => this.filterCriteria = value,
         error => console.error(error));
-  }
-
-  ngOnInit(){
-    this.photos = this.photoService.getPhotos();
-    // zamiennie z | async 
-    /*this.photoService.getPhotos()
-          .subscribe(
-            data => {
-                this.photos=data;
-            },
-            err =>
-                console.log("Can't get photos. Error code: %s, URL: %s ",  err.status, err.url),
-            () => console.log('Photo(s) are retrieved')
-    );*/
 
     this.photoService.searchEvent
       .subscribe(
         params => this.photos = this.photoService.search(params),
-          err =>  console.log("Can't get photos. Error code: %s, URL: %s "),
+        err =>  console.log("Can't get photos. Error code: %s, URL: %s "),
         () => console.log('DONE')
     );  
-    }
-
+      
+  }
 
 }
