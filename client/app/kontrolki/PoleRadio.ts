@@ -3,13 +3,13 @@ import {Component, Input, Output, EventEmitter, ngFor} from 'angular2/core';
 @Component({
   selector: 'PoleRadio',
   template: `
-    <label> pole radio</label>
-    <label *ngFor="#element of wartosci">
+    <label> Etykieta pola radio</label>
+    <span *ngFor="#element of wartosci">
      <input type="radio" name="opcje" 
        (click)="ustawRadio(element)" 
        [checked]="element.wybrany === true">
       {{element.nazwa}}
-    </label>
+    </span>
     
   `
 })

@@ -3,7 +3,7 @@ import {Component, Input, Output, EventEmitter} from 'angular2/core';
 @Component({
   selector: 'PoleTekstowe',
   template: `
-  		<label> pole tekstowe</label>
+  		<label> Etykieta pola tekstowego</label>
 		<input type="text" [(ngModel)] = "wartosc" (input)="onInputTextEvent($event)"/>
 		`
 })
