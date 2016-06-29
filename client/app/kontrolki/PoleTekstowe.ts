@@ -1,6 +1,4 @@
-import {Component, Input, Output, EventEmitter, OnChanges, SimpleChange} from 'angular2/core';
-
-interface IChanges {[key: string]: SimpleChange};
+import {Component, Input, Output, EventEmitter} from 'angular2/core';
 
 @Component({
   selector: 'PoleTekstowe',
