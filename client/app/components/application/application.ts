@@ -11,6 +11,7 @@ import PhotoDetailComponent from "../photo-detail/photo-detail";
 import PhotoMediatorComponent from "../photo-mediator/photo-mediator";
 import FormsComponent from "../forms/forms";
 import MessageSubscriberComponent from '../message/message-subscriber';
+import ControlsComponent from '../../kontrolki/controls';
 
 
 // end::imports[]
@@ -32,7 +33,9 @@ import MessageSubscriberComponent from '../message/message-subscriber';
    ChatComponent,
    PhotoMediatorComponent,
    FormsComponent,
-   MessageSubscriberComponent]
+   MessageSubscriberComponent,
+
+   ControlsComponent]
 })
 @RouteConfig([
   {path: '/', component: HomeComponent, as: 'Home'},
@@ -40,6 +43,7 @@ import MessageSubscriberComponent from '../message/message-subscriber';
 
   {path: '/contact', component: ContactComponent, as: 'Contact'},
   {path: '/mediator', component: PhotoMediatorComponent, as: 'Mediator'},
+  {path: '/controls', component: ControlsComponent, as: 'Controls'},
   {path: '/forms', component: FormsComponent, as: 'Forms'},
   {path: '/ws', component: MessageSubscriberComponent, as: 'WebSockets'},
 
