@@ -19,6 +19,7 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/index.html'));
 });
 app.get('/photos', (req, res) => {
+    console.log(req.query);
     res.json(getPhotos(req.query));
 });
 app.get('/photos/:id', (req, res) => {

@@ -20,13 +20,17 @@ export class Review {
 }
 
 export function getPhotos(params = <any>{}): Photo[] {
+  console.log("getPhotos");
+  if(params){
+    console.log(params);
+  }
   let result = photos;
 
   if (params.title) {
     result = result.filter(
       p => p.title.toLowerCase().indexOf(params.title.toLowerCase()) !== -1);
   }
-  if (parseInt(params.year) && result.length > 0) {
+  if (params.year && parseInt(params.year) && result.length > 0) {
     result = result.filter(
       p => p.year === parseInt(params.year));
   }
@@ -34,7 +38,7 @@ export function getPhotos(params = <any>{}): Photo[] {
     result = result.filter(
       p => p.place.toLowerCase().indexOf(params.place.toLowerCase()) !== -1);
   }
-  if (params.category && result.length > 0) {
+  if (params.category && params.category != 'all' && result.length > 0) {
     result = result.filter(
       p => p.categories.indexOf(params.category.toLowerCase()) !== -1);
   }

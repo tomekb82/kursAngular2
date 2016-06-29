@@ -11,7 +11,6 @@ import { Observable} from "rxjs/Observable";
 
 @Component({
   selector: 'photo-home-page',
-  //providers: [PhotoService],
   directives: [
     NgFormControl, 
     CarouselComponent,
@@ -46,6 +45,7 @@ import { Observable} from "rxjs/Observable";
 export default class HomeComponent {
  
   photos: Observable<Photo[]>;
+  subscription: any;
 
   titleFilter: Control = new Control();
   filterCriteria: string;
@@ -57,15 +57,21 @@ export default class HomeComponent {
       .debounceTime(100)
       .subscribe(
         value => this.filterCriteria = value,
-        error => console.error(error));
+        error => console.error(error)
+    );
+  }
 
-    this.photoService.searchEvent
+  ngOnInit() {
+    this.subscription = this.photoService.getSearchEmitter()
       .subscribe(
         params => this.photos = this.photoService.search(params),
         err =>  console.log("Can't get photos. Error code: %s, URL: %s "),
         () => console.log('DONE')
     );  
-      
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
 }

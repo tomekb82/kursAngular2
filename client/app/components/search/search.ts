@@ -15,7 +15,7 @@ import {SearchProcessorComponent} from './search-processor';
 
 @Component({
   selector: 'photo-search',
-  providers: [PhotoService, FORM_PROVIDERS],
+  providers: [FORM_PROVIDERS],
   directives: [CORE_DIRECTIVES, FORM_DIRECTIVES, LogDirective, SearchProcessorComponent],
   templateUrl: 'app/components/search/search.html',
   styles: ['.textarea {height: 100px; width: 220px;}'],
@@ -67,10 +67,7 @@ export default class SearchComponent {
 
   onSearch() {
     if (this.formModel.valid) {
-      
-      this.photoService.searchEvent.emit(this.formModel.value);
-      this.photoService.test(this.formModel.value);
-      console.log("onSearch, form valid" + JSON.stringify(this.formModel.value));
+      this.photoService.emitSearchEvent(this.formModel.value);
     }else{
       console.log("onSearch, form invalid");
     }

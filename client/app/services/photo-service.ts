@@ -29,14 +29,22 @@ export class Review {
 
 export interface PhotoSearchParams {
   title: string;
-  place: string;
-  year: number;
+  year: string;
+  category: number;
 }
 
 @Injectable()
 export class PhotoService {
 
   searchEvent: EventEmitter = new EventEmitter();
+
+  emitSearchEvent(value) {
+    this.searchEvent.emit(value);
+  }
+
+  getSearchEmitter() {
+    return this.searchEvent;
+  }
 
   constructor( private http: Http){}
 
@@ -53,11 +61,10 @@ export class PhotoService {
       .map(r => new Review(r.id, r.photoId, new Date(r.timestamp), r.user, r.rating, r.comment));
   }*/
 
-  test(params: PhotoSearchParams  ){
-    console.log("test=" + JSON.stringify(params));
-  }
-  search(params/*: PhotoSearchParams*/): Observable<Photo[]> {
-    console.log("search=" + JSON.stringify(params));
+  search(params: PhotoSearchParams): Observable<Photo[]> {
+    console.log("start encode");
+    console.log(encodeParams(params));
+    console.log("end encode");
     return this.http
       .get('/photos', {search: encodeParams(params)})
       .map(response => response.json());
@@ -80,7 +87,7 @@ export class PhotoService {
         (r: any) => new Review(r.id, r.photoId, new Date(r.timestamp), r.user, r.rating, r.comment)));
   }
   getCategories(): string[] {
-    return ['home', 'garden', 'city', 'shop', 'holidays', 'sea'];
+    return ['home', 'garden', 'city', 'shop', 'holidays', 'sea', 'party'];
   }
  
 }

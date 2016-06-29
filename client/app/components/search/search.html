@@ -9,12 +9,12 @@
            class="form-control"
            type="text" 
            ngControl="title"
-           minlength="3"
+           minlength="3">
 
-           log-directive
-           [value]="searchTitle" [attr.value] = "searchTitle"
-           #myTitle
-           (input)="onInputSearchTitleEvent($event)" >  
+           <!-- log-directive
+            [value]="searchTitle" [attr.value] = "searchTitle"
+            #myTitle
+            (input)="onInputSearchTitleEvent($event)" >  --> 
    <span class="help-block" 
         [class.hidden]="!formModel.hasError('minlength', 'title')" >
         Type at least 3 characters
@@ -39,7 +39,8 @@
           step="any"
           ngControl="year"
           log-directive
-          [value] = "searchYear">
+          [value] = "searchYear"
+          >
     <span class="help-block"
          [class.hidden]="!formModel.hasError('positivenumber', 'year')">
      Year is not a positive number
@@ -62,7 +63,7 @@
           class="form-control" 
           ngControl="category" 
           (change)="onSelectEvent($event)">
-      <option value="-1">All categories</option>
+      <option value="all">All categories</option>
       <option *ngFor="#c of categories" 
             [value]="c">{{c}}</option>
     </select>  
