@@ -167,6 +167,7 @@ export default class PhotoDetailComponent implements OnDeactivate {
   }
 
   addReview() {
+    console.log("new rating=" + this.newRating);
     let review = new Review(0, this.photo.id, new Date(), 'Anonymous',
         this.newRating, this.newComment);
     this.reviews = [...this.reviews, review];
