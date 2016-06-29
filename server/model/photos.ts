@@ -20,10 +20,6 @@ export class Review {
 }
 
 export function getPhotos(params = <any>{}): Photo[] {
-  console.log("getPhotos");
-  if(params){
-    console.log(params);
-  }
   let result = photos;
 
   if (params.title) {
@@ -59,7 +55,7 @@ var photos = [
     "id": 0,
     "title": "First Photo",
     "year": 2015,
-    "place": "Warsaw",
+    "place": "Warszawa",
     "rating": 4.3,
     "description": "This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     "categories": ["home", "party"]
@@ -68,7 +64,7 @@ var photos = [
     "id": 1,
     "title": "Second Photo",
     "year": 2016,
-    "place": "Warsaw",
+    "place": "Lublin",
     "rating": 3.5,
     "description": "This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     "categories": ["children"]
@@ -77,7 +73,7 @@ var photos = [
     "id": 2,
     "title": "Third Photo",
     "year": 2014,
-    "place": "Warsaw",
+    "place": "Warszawa",
     "rating": 4.2,
     "description": "This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     "categories": ["home"]
@@ -86,7 +82,7 @@ var photos = [
     "id": 3,
     "title": "Fourth Photo",
     "year": 2015,
-    "place": "Warsaw",
+    "place": "Warszawa",
     "rating": 3.9,
     "description": "This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     "categories": ["children"]
@@ -95,6 +91,7 @@ var photos = [
     "id": 4,
     "title": "Fifth Photo",
     "year": 2013,
+    "place": "Warszawa", 
     "rating": 5,
     "description": "This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     "categories": ["city", "garden"]
@@ -103,7 +100,7 @@ var photos = [
     "id": 5,
     "title": "Sixth Photo",
     "year": 2016,
-    "place": "Warsaw",
+    "place": "Warszawa",
     "rating": 4.6,
     "description": "This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     "categories": ["walk"]

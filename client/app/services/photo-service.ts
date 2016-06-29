@@ -30,6 +30,7 @@ export class Review {
 export interface PhotoSearchParams {
   title: string;
   year: string;
+  place: string;
   category: number;
 }
 
@@ -62,9 +63,6 @@ export class PhotoService {
   }*/
 
   search(params: PhotoSearchParams): Observable<Photo[]> {
-    console.log("start encode");
-    console.log(encodeParams(params));
-    console.log("end encode");
     return this.http
       .get('/photos', {search: encodeParams(params)})
       .map(response => response.json());

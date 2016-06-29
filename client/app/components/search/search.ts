@@ -24,7 +24,7 @@ export default class SearchComponent {
   formModel: ControlGroup;
 
 	categories: string[];
-  searchCategory: Control;
+  placeCtrl: Control;
   searchYear:number;
 
 	searchTitle: string = '';
@@ -52,17 +52,20 @@ export default class SearchComponent {
       private fb: FormBuilder) {
 
     this.categories = this.photoService.getCategories();
+    
+    this.placeCtrl = new Control('');
+    this.placeCtrl.valueChanges
+      .debounceTime(500)
+      .subscribe(place => this.getYearFromServer(place));
 
     this.formModel = fb.group({
       'title': [null, Validators.minLength(3)],
       'year': [null, ValidationService.positiveNumberValidator],
+      'place': this.placeCtrl,
       'category': [-1]
     })
 
-    this.searchCategory = new Control('');
-    this.searchCategory.valueChanges
-      .debounceTime(500)
-      .subscribe(category => this.getYearFromServer(category));
+    
   }
 
   onSearch() {
@@ -73,9 +76,9 @@ export default class SearchComponent {
     }
   }
 
-  getYearFromServer(category) {
+  getYearFromServer(place) {
         this.searchYear = 12*Math.random().toFixed(4);
-        console.log("The year for the ${category} is:" + this.searchYear );
+        console.log(`The year for the ${place} is:` + this.searchYear );
   }
 
 
