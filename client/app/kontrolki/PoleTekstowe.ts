@@ -19,15 +19,13 @@ import {
   template: `
   		<label> Etykieta pola tekstowego</label>
 		<input type="text" [(ngModel)] = "wartosc" 
-     (input)="onInputTextEvent($event)" [ngControl]="username?.id"/>
+     (input)="onInputTextEvent($event)"/>
 		`
 })
 export default class PoleTekstowe {
 
    private _wartosc:string;
-
-   @Input() username;
-
+   
    @Input()
    get wartosc(): string {
      return this._wartosc;

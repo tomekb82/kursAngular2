@@ -16,9 +16,6 @@ export interface WeatherResult {
 @Injectable()
 export class WeatherService {
 
- base = 'http://api.openweathermap.org/data/2.5/find?q=';
- suffix = '&units=imperial&appid=c3f4b5f050695675a49a9083685892a7';
-
 	constructor(
       private http: Http,
       @Inject(WEATHER_URL_BASE) private urlBase: string,
