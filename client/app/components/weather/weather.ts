@@ -11,14 +11,10 @@ import {TemperaturePipe} from '../../pipes/temperature-pipe';
 import OnPushComponent from '../onPush/onPush';
 
 @Component({
-    selector: 'contact',
-    template: `<div class="contact form-group">Contact Component 
-                   <br>
-                  
-                   
+    selector: 'weather',
+    template: `<div class="contact form-group">Weather Component 
+              
                </div>
-
-
                <h2>Weather</h2>
                 <input type="text" style="color:black" placeholder="Enter city" [ngFormControl]="searchCity">
                 <h3>Current weather in {{weather?.place}}:</h3>
@@ -36,15 +32,13 @@ import OnPushComponent from '../onPush/onPush';
               <div class="form-group">
                 <on-push></on-push>
               </div>
-
-
                `,
     styles: [`.contact {background: #286090; color: white; padding: 15px 0 0 30px;  height: 80px; width:100%;
                     float:left; box-sizing:border-box;}`],
     providers: [WeatherService],
     directives: [OnPushComponent],
     pipes:[TemperaturePipe]  })
-export class ContactComponent {
+export class WeatherComponent {
    
 
 	searchCity: Control;

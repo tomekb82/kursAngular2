@@ -6,7 +6,7 @@ import FooterComponent from '../footer/footer';
 import SearchComponent from '../search/search';
 import NavbarComponent from '../navbar/navbar';
 import HomeComponent from '../home/home';
-import {ContactComponent, ChatComponent} from '../contact/contact';
+import {WeatherComponent, ChatComponent} from '../weather/weather';
 import PhotoDetailComponent from "../photo-detail/photo-detail";
 import PhotoMediatorComponent from "../photo-mediator/photo-mediator";
 import FormsComponent from "../forms/forms";
@@ -29,7 +29,7 @@ import ControlsComponent from '../../kontrolki/controls';
    HomeComponent,
 
    PhotoDetailComponent,
-   ContactComponent,
+   WeatherComponent,
    ChatComponent,
    PhotoMediatorComponent,
    FormsComponent,
@@ -41,7 +41,7 @@ import ControlsComponent from '../../kontrolki/controls';
   {path: '/', component: HomeComponent, as: 'Home'},
   {path: '/photos/:photoId/...', component: PhotoDetailComponent, as: 'PhotoDetail' , data:{isProd: true}},
 
-  {path: '/contact', component: ContactComponent, as: 'Contact'},
+  {path: '/weather', component: WeatherComponent, as: 'Weather'},
   {path: '/mediator', component: PhotoMediatorComponent, as: 'Mediator'},
   {path: '/controls', component: ControlsComponent, as: 'Controls'},
   {path: '/forms', component: FormsComponent, as: 'Forms'},
