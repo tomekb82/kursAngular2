@@ -1,4 +1,16 @@
 import {Component} from 'angular2/core';
+import {
+  Control,
+  ControlArray,
+  ControlGroup,
+  FormGroup,
+  FormControl,
+  CORE_DIRECTIVES,
+  FORM_DIRECTIVES,
+  NG_VALIDATORS,
+  Validators,
+  FormBuilder	
+} from 'angular2/common';
 
 import PoleTekstowe from './PoleTekstowe';
 import PoleRadio from './PoleRadio';
@@ -7,8 +19,18 @@ import PoleCombo from './PoleCombo';
 
 @Component({
   selector: 'controls-examples',
-  directives: [PoleTekstowe, PoleRadio, PoleCheckbox, PoleCombo],
+  directives: [PoleTekstowe, PoleRadio, PoleCheckbox, PoleCombo, CORE_DIRECTIVES, FORM_DIRECTIVES,],
   template: `
+
+
+<form [ngFormModel]="form">
+			<input type="text" ngControl="username" />
+
+			<button (click)="submitData()" [disabled]="!form.valid" class="btn btn-primary">Sumbit data</button>
+		
+		</form>
+
+
   		<a *ngIf="pokazPoleTekstowe" (click)="pokazPoleTekstowe=!pokazPoleTekstowe">Ukryj</a>
         <a *ngIf="!pokazPoleTekstowe" (click)="pokazPoleTekstowe=!pokazPoleTekstowe">Pokaż</a>
   		<h4> Pole tekstowe </h4>
@@ -55,6 +77,28 @@ import PoleCombo from './PoleCombo';
  `
 })
 export default class ControlsComponent {
+
+form: ControlGroup;
+	
+	username: Control;
+
+	constructor(private builder: FormBuilder) {
+		
+		this.username = new Control(
+			"", 
+			Validators.compose([Validators.required])
+		);
+		
+		this.form = builder.group({
+			username:  this.username
+		});
+	}
+	submitData(){
+     	console.log(JSON.stringify(this.form.value))
+    }
+
+
+
 
     pokazPoleTekstowe:boolean = true;
     pokazPoleRadio:boolean = true;
