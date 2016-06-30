@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component} from 'angular2/core';  
 import {Control, NgFormControl} from 'angular2/common';
 import {HTTP_PROVIDERS, Http} from 'angular2/http';
 import {Observable} from 'rxjs/Rx';
@@ -6,7 +6,7 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 
-import {WeatherService} from '../../services/weather-service';
+import {WeatherService, WeatherResult} from '../../services/weather-service';
 import {TemperaturePipe} from '../../pipes/temperature-pipe';
 import OnPushComponent from '../onPush/onPush';
 
@@ -14,10 +14,18 @@ import OnPushComponent from '../onPush/onPush';
     selector: 'contact',
     template: `<div class="contact form-group">Contact Component 
                    <br>
-                   <input type="text" style="color:black" placeholder="Type city name" [ngFormControl]="searchCity"/>
+                  
                    
                </div>
-               <pre *ngIf="temperatureDescription"> {{temperatureDescription}}</pre>
+
+
+               <h2>Weather</h2>
+                <input type="text" style="color:black" placeholder="Enter city" [ngFormControl]="searchCity">
+                <h3>Current weather in {{weather?.place}}:</h3>
+                <ul>
+                  <li>Temperature: {{weather?.temperature}}F</li>
+                  <li>Humidity: {{weather?.humidity}}%</li>
+                </ul>
 
               <div class="form-group">
                   <input type='text' value="0" placeholder= "Enter temperature" [(ngModel)] = "temperature">
@@ -37,13 +45,12 @@ import OnPushComponent from '../onPush/onPush';
     directives: [OnPushComponent],
     pipes:[TemperaturePipe]  })
 export class ContactComponent {
-    private API_KEY: string = "c3f4b5f050695675a49a9083685892a7";
-    private baseWeatherURL: string= 'http://api.openweathermap.org/data/2.5/find?q=';
-    private urlSuffix: string = "&units=imperial&appid=" + this.API_KEY;
+   
 
 	searchCity: Control;
+  weather: WeatherResult;
+
     temperature: string;
-    temperatureDescription: string;
     toCelsius: boolean=true;
     targetFormat: string ='Celsius';
     format: string='FtoC';
@@ -54,37 +61,17 @@ export class ContactComponent {
         this.targetFormat = this.toCelsius?'Celsius':'Fahrenheit';
     }
 
-    constructor(private http:Http, private weatherService: WeatherService){
+    constructor(private weatherService: WeatherService){
         this.searchCity = new Control('');
-        /*this.searchCity.valueChanges
-            .debounceTime(500)
-            .subscribe(city => weatherService.getWeather(http, city));*/
+       
         this.searchCity.valueChanges
-            .debounceTime(500)
-            .switchMap(city => this.getWeather(city))
-            .subscribe(
-                res => {
-                    if (res['cod'] === '404') return;
-                    if (!res.list[0]) {
-                        this.temperature ='City is not found';
-                    } else {
-
-                        this.temperatureDescription =
-                            `Current temperature is  ${res.list[0].main.temp}F, ` +
-                            `humidity: ${res.list[0].main.humidity}%`;
-                        this.temperature = res.list[0].main.temp;
-                    }
-                },
-                err => console.log(`Can't get weather. Error code: %s, URL: %s`, err.message, err.url),
-                () => console.log(`Weather is retrieved`)
-            );
+        .debounceTime(500)
+        .switchMap((city: string) => weatherService.getWeather(city))
+        .subscribe(
+            (weather: WeatherResult) => this.weather = weather,
+            error => console.error(error),
+            () => console.log('Weather is retrieved'));
     }
-
-    getWeather(city): Observable<Array> {
-      return this.http.get(this.baseWeatherURL + city + this.urlSuffix)
-        .map(res => res.json());
-    }
-
 }
 
 @Component({

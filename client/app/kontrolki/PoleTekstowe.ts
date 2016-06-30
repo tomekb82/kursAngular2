@@ -19,7 +19,7 @@ import {
   template: `
   		<label> Etykieta pola tekstowego</label>
 		<input type="text" [(ngModel)] = "wartosc" 
-     (input)="onInputTextEvent($event)" ngControl="username"/>
+     (input)="onInputTextEvent($event)" [ngControl]="username?.id"/>
 		`
 })
 export default class PoleTekstowe {

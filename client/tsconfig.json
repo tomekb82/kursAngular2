@@ -5,6 +5,9 @@
     "module": "system",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "noEmit": true
+    "noEmit": false,
+    "sourceMap": true,
+    "outDir": "dist",
+    "rootDir": "app"
   }
 }

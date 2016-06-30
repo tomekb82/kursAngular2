@@ -71,3 +71,8 @@ UWAGA: W NODE nie dziala metoda find() na talicach jezeli wersja node jest 0x - 
   sudo n stable
   sudo ln -sf /usr/local/n/versions/node/<VERSION>/bin/node /usr/bin/node
 
+### Testy
+
+## instalacja jasmine
+
+    typings install dt~jasmine --save --global

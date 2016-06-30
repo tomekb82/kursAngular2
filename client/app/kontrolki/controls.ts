@@ -19,17 +19,9 @@ import PoleCombo from './PoleCombo';
 
 @Component({
   selector: 'controls-examples',
-  directives: [PoleTekstowe, PoleRadio, PoleCheckbox, PoleCombo, CORE_DIRECTIVES, FORM_DIRECTIVES,],
+  directives: [PoleTekstowe, PoleRadio, PoleCheckbox, PoleCombo, CORE_DIRECTIVES, FORM_DIRECTIVES],
   template: `
 
-
-<form [ngFormModel]="form">
-	
-			<PoleTekstowe [(wartosc)]="wartoscPolaTestowego" [username]="username"> </PoleTekstowe>
-
-			<button (click)="submitData()" [disabled]="!form.valid" class="btn btn-primary">Sumbit data</button>
-		
-		</form>
 
 
   		<a *ngIf="pokazPoleTekstowe" (click)="pokazPoleTekstowe=!pokazPoleTekstowe">Ukryj</a>

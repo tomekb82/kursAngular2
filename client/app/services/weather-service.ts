@@ -1,28 +1,52 @@
-import {HTTP_PROVIDERS, Http} from 'angular2/http';
+import {Inject, Injectable, OpaqueToken} from 'angular2/core';
+import {HTTP_PROVIDERS, Http, Response} from 'angular2/http';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/map';
 
+export const WEATHER_URL_BASE = new OpaqueToken('WeatherUrlBase');
+export const WEATHER_URL_SUFFIX = new OpaqueToken('WeatherUrlSuffix');
+
+export interface WeatherResult {
+  place: string;
+  temperature: string;
+  humidity: string;
+}
+
+@Injectable()
 export class WeatherService {
 
-	private baseWeatherURL: string= 'http://api.openweathermap.org/data/2.5/find?q=';
-    private urlSuffix: string = "&units=imperial&appid=ed9e3bd9520c05c5a7a47ab7576a3386";
+ base = 'http://api.openweathermap.org/data/2.5/find?q=';
+ suffix = '&units=imperial&appid=c3f4b5f050695675a49a9083685892a7';
+
+	constructor(
+      private http: Http,
+      @Inject(WEATHER_URL_BASE) private urlBase: string,
+      @Inject(WEATHER_URL_SUFFIX) private urlSuffix: string) {
+    }
 	
 	temperature: string;
 
-	getWeather(http, city) {
-		console.log("city = " + city);
-		http.get(this.baseWeatherURL + city + this.urlSuffix)
-			.map(res => res.json())
- 			.subscribe(
- 				res => {
- 					console.log(res);
- 					this.temperature=`Current temperature in ${city} is
- 					${res.list[0].main.temp}F,
- 					humidity: ${res.list[0].main.humidity}%`;
- 				} ,
- 				err =>
- 					console.log("Can't get weather. Error code: %s, URL: %s ",  err.message, err.url),
- 				() => console.log(`Weather for ${city} is retrieved`)
- 			);
- 	}
+ 	getWeather(city: string): Observable<WeatherResult> {
+    return this.http
+        .get(this.urlBase + city + this.urlSuffix)
+        .map((response: Response) => response.json())
+        .filter(this._hasResult)
+        .map(this._parseData);
+  }
+
+  private _hasResult(data): boolean {
+    return data['cod'] !== '404' && data.list.length;
+  }
+
+  private _parseData(data): WeatherResult {
+    let [first,] = data.list;
+    return {
+      place: first.name || 'unknown',
+      temperature: first.main.temp,
+      humidity: first.main.humidity
+    };
+  }
 }
 
 

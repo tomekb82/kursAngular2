@@ -6,6 +6,7 @@ import {HTTP_PROVIDERS, Http} from 'angular2/http';
 import {ROUTER_PROVIDERS, ROUTER_DIRECTIVES, LocationStrategy, HashLocationStrategy} from 'angular2/router';
 import ApplicationComponent  from "./components/application/application";
 import {PHOTO_APP_SERVICES} from './services/services';
+import {WEATHER_URL_BASE, WEATHER_URL_SUFFIX, WeatherService} from './services/weather-service';
 //import {PhotoService} from "./services/photo-service";
 //const DEFAULT_SERVICE_PROVIDERS = [ PhotoService ];
 
@@ -19,7 +20,11 @@ bootstrap(ApplicationComponent, [
     provide("IS_DEV_ENVIRONMENT",{useValue:false}),
     provide(LocationStrategy, {useClass: HashLocationStrategy}),
 
-    PHOTO_APP_SERVICES
+    PHOTO_APP_SERVICES,
+    provide(WEATHER_URL_BASE, {useValue: 'http://api.openweathermap.org/data/2.5/find?q='}),
+    provide(WEATHER_URL_SUFFIX, {useValue: '&units=imperial&appid=c3f4b5f050695675a49a9083685892a7'}),
+    WeatherService
 ]);
 
 
+	
