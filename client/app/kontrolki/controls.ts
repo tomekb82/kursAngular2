@@ -24,7 +24,8 @@ import PoleCombo from './PoleCombo';
 
 
 <form [ngFormModel]="form">
-			<input type="text" ngControl="username" />
+	
+			<PoleTekstowe [(wartosc)]="wartoscPolaTestowego" [username]="username"> </PoleTekstowe>
 
 			<button (click)="submitData()" [disabled]="!form.valid" class="btn btn-primary">Sumbit data</button>
 		
