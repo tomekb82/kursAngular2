@@ -19,7 +19,7 @@ module.exports = function (config) {
       {pattern: 'client/app/**/*.ts', included: false, watched: true}
     ],
     proxies: {
-      '/client/app/': '/base/app/'
+      '/app/': '/base/app/'
     },
     plugins: [
       'karma-jasmine',

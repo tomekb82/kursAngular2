@@ -39,7 +39,7 @@ import ControlsComponent from '../../kontrolki/controls';
 })
 @RouteConfig([
   {path: '/', component: HomeComponent, name: 'Home'},
-  {path: '/photos/:photoId/...', component: PhotoDetailComponent, name: 'PhotoDetail' /*, data:{isProd: true}*/},
+  {path: '/photos/:photoId/...', component: PhotoDetailComponent, name: 'PhotoDetail' , data:{isProd: true}},
   {path: '/weather', component: WeatherComponent, name: 'Weather'},
   {path: '/mediator', component: PhotoMediatorComponent, name: 'Mediator'},
   {path: '/controls', component: ControlsComponent, name: 'Controls'},

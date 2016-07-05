@@ -6,6 +6,13 @@ import {beforeEach, beforeEachProviders, inject, it} from 'angular2/testing';
 
 import ApplicationComponent from './application';
 
+describe('ApplicationComponent', () => {
+  it('is successfully instantiated', () => {
+    const app = new ApplicationComponent();
+    expect(app instanceof ApplicationComponent).toEqual(true);
+  });
+});
+
 describe('Router', () => {
   let location: Location;
   let router: Router;
