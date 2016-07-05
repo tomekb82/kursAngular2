@@ -38,20 +38,19 @@ import ControlsComponent from '../../kontrolki/controls';
    ControlsComponent]
 })
 @RouteConfig([
-  {path: '/', component: HomeComponent, as: 'Home'},
-  {path: '/photos/:photoId/...', component: PhotoDetailComponent, as: 'PhotoDetail' , data:{isProd: true}},
+  {path: '/', component: HomeComponent, name: 'Home'},
+  {path: '/photos/:photoId/...', component: PhotoDetailComponent, name: 'PhotoDetail' /*, data:{isProd: true}*/},
+  {path: '/weather', component: WeatherComponent, name: 'Weather'},
+  {path: '/mediator', component: PhotoMediatorComponent, name: 'Mediator'},
+  {path: '/controls', component: ControlsComponent, name: 'Controls'},
+   {path: '/forms', component: FormsComponent, name: 'Forms'},
+  {path: '/ws', component: MessageSubscriberComponent, name: 'WebSockets'},
 
-  {path: '/weather', component: WeatherComponent, as: 'Weather'},
-  {path: '/mediator', component: PhotoMediatorComponent, as: 'Mediator'},
-  {path: '/controls', component: ControlsComponent, as: 'Controls'},
-  {path: '/forms', component: FormsComponent, as: 'Forms'},
-  {path: '/ws', component: MessageSubscriberComponent, as: 'WebSockets'},
-
-  {aux: '/chat', component: ChatComponent, as: 'Chat'},
+  {aux: '/chat', component: ChatComponent, name: 'Chat'},
 
   {path:'/about',  loader: ()=> System.import('app/components/about/about')
                    .then(libModule => libModule.AboutComponent),
-                   as: 'About'}
+                   name: 'About'}
 ])
 // end::annotation-component[]
 // tag::class[]

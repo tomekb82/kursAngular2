@@ -76,3 +76,11 @@ UWAGA: W NODE nie dziala metoda find() na talicach jezeli wersja node jest 0x - 
 ## instalacja jasmine
 
     typings install dt~jasmine --save --global
+
+## uruchomienie testow
+
+- przejdz do katalogu client
+
+- uruchom serwer: live-server
+
+- uruchom strone 'test.html' na serwerze

@@ -94,8 +94,8 @@ export default class PhotoParametersComponent {
     StarsComponent]
 })
 @RouteConfig([
-    {path: '/', component: PhotoParametersComponent , as: 'PhotoParameters'  },
-    {path: '/description', component: PhotoDescriptionComponent, as: 'PhotoDescription'  }
+    {path: '/', component: PhotoParametersComponent , name: 'PhotoParameters'  },
+    {path: '/description', component: PhotoDescriptionComponent, name: 'PhotoDescription'  }
 ])
 export default class PhotoDetailComponent implements OnDeactivate {
   photo: Photo;

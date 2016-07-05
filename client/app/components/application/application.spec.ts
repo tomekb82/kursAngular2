@@ -4,7 +4,7 @@ import {RootRouter} from 'angular2/src/router/router';
 import {SpyLocation} from 'angular2/router/testing';
 import {beforeEach, beforeEachProviders, inject, it} from 'angular2/testing';
 
-import {ApplicationComponent} from './application';
+import ApplicationComponent from './application';
 
 describe('Router', () => {
   let location: Location;
@@ -29,20 +29,21 @@ describe('Router', () => {
     }).catch(e => done.fail(e));
   });
 
-  it('should be able to navigate to Contact by route name', done => {
-    router.navigate(['/Contact']).then(() => {
-      expect(location.path()).toBe('/contact');
+  it('should be able to navigate to Weather by route name', done => {
+    router.navigate(['/Weather']).then(() => {
+      expect(location.path()).toBe('/weather');
       done();
     }).catch(e => done.fail(e));
   });
 
-  it('should be able to navigate to Contact by URL', done => {
-    router.navigateByUrl('/contact').then(() => {
-      expect(location.path()).toBe('/contact');
+  it('should be able to navigate to Weather by URL', done => {
+    router.navigateByUrl('/weather').then(() => {
+      expect(location.path()).toBe('/weather');
       done();
     }).catch(e => done.fail(e));
   });
 });
+
 
 
 

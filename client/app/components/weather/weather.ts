@@ -16,7 +16,7 @@ import OnPushComponent from '../onPush/onPush';
               
                </div>
                <h2>Weather</h2>
-                <input type="text" style="color:black" placeholder="Enter city" [ngFormControl]="searchCity">
+                <input type="text" name="search" style="color:black" placeholder="Enter city" [ngFormControl]="searchCity">
                 <h3>Current weather in {{weather?.place}}:</h3>
                 <ul>
                   <li>Temperature: {{weather?.temperature}}F</li>
@@ -35,7 +35,7 @@ import OnPushComponent from '../onPush/onPush';
                `,
     styles: [`.contact {background: #286090; color: white; padding: 15px 0 0 30px;  height: 80px; width:100%;
                     float:left; box-sizing:border-box;}`],
-    providers: [WeatherService],
+    //providers: [WeatherService],
     directives: [OnPushComponent],
     pipes:[TemperaturePipe]  })
 export class WeatherComponent {

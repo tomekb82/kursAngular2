@@ -24,14 +24,28 @@
   <script src="../node_modules/angular2/bundles/testing.dev.js"></script>
 
   <!-- SystemJS -->
-  <script src="../config.js"></script>
+  <!-- <script src="../config.js"></script> -->
 </head>
 <body>
 <script>
+
+   System.config({
+      baseURL: "/",
+      transpiler: 'typescript',
+      typescriptOptions: {emitDecoratorMetadata: true},
+      packages: {
+        "app": {
+          "defaultExtension": "ts",
+          "main": "main.ts"
+        }
+      }
+    });
+    System.import('app');
+
   var SPEC_MODULES = [
-   //'app/components/app.spec',
-   // 'app/components/weather.spec',
-    'app/services/weather.service.spec'
+   'app/components/application/application.spec',
+   'app/components/weather/weather.spec',
+   'app/services/weather-service.spec'
   ];
 
   Promise.all([
