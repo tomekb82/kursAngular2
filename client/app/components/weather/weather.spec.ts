@@ -27,6 +27,11 @@ describe('WeatherComponent', () => {
     component = cmp;
   }));
 
+  it('is successfully instantiated', () => {
+    const app = new WeatherComponent();
+    expect(app instanceof WeatherComponent).toEqual(true);
+  }); 
+
   it('should display the weather ', done => {
     testComponentBuilder.createAsync(WeatherComponent).then(fixture => {
       let element = fixture.nativeElement;

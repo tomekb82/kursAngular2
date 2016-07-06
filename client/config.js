@@ -1,14 +1,12 @@
 System.config({
-  baseURL: "/",
   transpiler: "typescript",
-  map:{'app': 'client/app'},
   typescriptOptions: {
-    "emitDecoratorMetadata": true
+    emitDecoratorMetadata: true
   },
   packages: {
-    "app": {
-      "defaultExtension": "ts",
-      "main": "main.ts"
+    app: {
+      defaultExtension: "ts",
+      main: "main.ts"
     }
   }
 });
