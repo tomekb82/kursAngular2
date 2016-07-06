@@ -114,4 +114,7 @@ UWAGA: W NODE nie dziala metoda find() na talicach jezeli wersja node jest 0x - 
 - kompilacja
 
   webpack
-- 
+
+- instalacja loaderow/pluginow:
+
+  npm install ts-loader --save-dev 

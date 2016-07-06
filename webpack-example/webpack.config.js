@@ -1,13 +1,33 @@
-const path = require('path');
+const path               = require('path');
+const CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
+const CopyWebpackPlugin  = require('copy-webpack-plugin');
 
 module.exports = {
-  entry: './main',
+  entry: {
+    'main'  : './app/main.ts',
+    'vendor': './app/vendor.ts'
+  },
   output: {
-    path: './dist',
+    path    : './dist',
     filename: 'bundle.js'
-  }, 
-  watch: true,
+  },
+  plugins: [
+    new CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
+    new CopyWebpackPlugin([{from: './app/index.html', to: 'index.html'}])
+  ],
+  resolve: {
+    extensions: ['', '.ts', '.js']
+  },
+  module: {
+    loaders: [
+      {test: /\.ts$/, loader: 'ts-loader'}
+    ],
+    noParse: [path.join(__dirname, 'node_modules', 'angular2', 'bundles')]
+  },
+  //watch: true,
   devServer: {
-    contentBase: '.'
-  }
+    contentBase: 'app',
+    historyApiFallback: true
+  },
+  devtool: 'source-map'
 };
