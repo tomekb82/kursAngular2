@@ -94,3 +94,24 @@ UWAGA: W NODE nie dziala metoda find() na talicach jezeli wersja node jest 0x - 
 - uruchomienie testow
 
   npm test
+
+
+## Bundle - Webpack
+
+- instalacja
+
+  npm install webpack -g
+
+- instalacja i uruchomienie serwera webpack
+
+  npm install webpack webpack-dev-server --save-dev
+  npm run start-webpack
+
+- konfiguracja
+
+  webpack.config.js
+
+- kompilacja
+
+  webpack
+- 

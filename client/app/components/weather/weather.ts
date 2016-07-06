@@ -10,6 +10,7 @@ import {WeatherService, WeatherResult} from '../../services/weather-service';
 import {TemperaturePipe} from '../../pipes/temperature-pipe';
 import OnPushComponent from '../onPush/onPush';
 
+
 @Component({
     selector: 'weather',
     template: `<div class="contact form-group">Weather Component 
