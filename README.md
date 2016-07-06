@@ -87,6 +87,10 @@ UWAGA: W NODE nie dziala metoda find() na talicach jezeli wersja node jest 0x - 
 
 ## testy z uzyciem karma
 
+- instalacja
+
   npm install karma karma-jasmine karma-chrome-launcher karma-firefox-launcher --save-dev
 
+- uruchomienie testow
 
+  npm test
