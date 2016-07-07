@@ -18,14 +18,14 @@ module.exports = {
   debug: false,
   devtool: 'source-map',
   entry: {
-    'main'  : './app/main.ts',
-    'vendor': './app/vendor.ts'
+    'main'  : './src/main.ts',
+    'vendor': './src/vendor.ts'
   },
   metadata: metadata,
   module: {
     loaders: [
       {test: /\.css$/,  loader: 'to-string!css', exclude: /node_modules/}, // Inline CSS into components
-      {test: /\.css$/,  loader: 'style!css', exclude: /app/}, // Add CSS as style tag to index.html
+      {test: /\.css$/,  loader: 'style!css', exclude: /src/}, // Add CSS as style tag to index.html
       {test: /\.html$/, loader: 'raw'},
       {test: /\.ts$/,   loader: 'ts', query: {compilerOptions: {noEmit: false}}}
     ],
@@ -38,7 +38,7 @@ module.exports = {
   plugins: [
     new CommonsChunkPlugin({name: 'vendor', filename: 'vendor.bundle.js', minChunks: Infinity}),
     new CompressionPlugin({regExp: /\.css$|\.html$|\.js$|\.map$/}),
-    new CopyWebpackPlugin([{from: './app/index.html', to: 'index.html'}]),
+    new CopyWebpackPlugin([{from: './src/index.html', to: 'index.html'}]),
     new DedupePlugin(),
     new DefinePlugin({'webpack': {'ENV': JSON.stringify(metadata.env)}}),
     new OccurenceOrderPlugin(true),
