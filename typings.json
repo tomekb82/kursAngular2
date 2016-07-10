@@ -1,5 +1,6 @@
 {
   "globalDependencies": {
+    "compression": "github:DefinitelyTyped/DefinitelyTyped/compression/compression.d.ts#9dbba87a0de04697b26391557f48acfff113b7ce",
     "es6-shim": "registry:dt/es6-shim#0.31.2+20160602141504",
     "express": "registry:dt/express#4.0.0+20160317120654",
     "express-serve-static-core": "registry:dt/express-serve-static-core#0.0.0+20160617060422",
