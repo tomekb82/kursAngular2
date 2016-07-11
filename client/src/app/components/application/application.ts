@@ -20,7 +20,7 @@ import ControlsComponent from '../../kontrolki/controls';
 @Component({
   selector: 'photo-app', // <1>
   template: require('./application.html'),
-  style: require('./application.css'),
+  styles: require('./application.css'),
   directives: [
    RouterOutlet,
    FooterComponent,
@@ -48,9 +48,9 @@ import ControlsComponent from '../../kontrolki/controls';
 
   {aux: '/chat', component: ChatComponent, name: 'Chat'},
 
-  {path:'/about',  loader: ()=> System.import('app/components/about/about')
+  /*{path:'/about',  loader: ()=> System.import('app/components/about/about')
                    .then(libModule => libModule.AboutComponent),
-                   name: 'About'}
+                   name: 'About'}*/
 ])
 // end::annotation-component[]
 // tag::class[]

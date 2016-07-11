@@ -15,6 +15,7 @@ import {Component, ViewChild, AfterViewInit, ViewEncapsulation} from 'angular2/c
 
 })
 class Hobby {
+    name = '';
     childProperty: string = 'value';
     show(name) {
         console.log(`Hello from ${name}.`);
@@ -40,7 +41,7 @@ class Hobby {
 
         <button (click)="hobby2.show('Hobby 2')">Invoke show() on hobby 2</button>
     </div>`,
-    encapsulation: ViewEncapsulation.Native
+    encapsulation: ViewEncapsulation.Native,
     directives: [Hobby]
 })
 export class AboutComponent implements AfterViewInit{

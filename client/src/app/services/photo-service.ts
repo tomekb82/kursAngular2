@@ -37,9 +37,9 @@ export interface PhotoSearchParams {
 @Injectable()
 export class PhotoService {
 
-  searchEvent: EventEmitter = new EventEmitter();
+  searchEvent: EventEmitter<any> = new EventEmitter();
 
-  emitSearchEvent(value) {
+  emitSearchEvent  (value) {
     this.searchEvent.emit(value);
   }
 
@@ -67,12 +67,12 @@ export class PhotoService {
       .get('/photos', {search: encodeParams(params)})
       .map(response => response.json());
   }
-  getPhotos(): Observable<Product[]>{
+  getPhotos(): Observable<Photo[]>{
     return this.http.get('/photos')
       .map(res => res.json());
   }
 
-  getPhoto(photoId: number): Observable<Product>{
+  getPhoto(photoId: number): Observable<Photo>{
     return this.http.get(`/photos/${photoId}`)
       .map(res => res.json());
   }
@@ -106,6 +106,23 @@ function encodeParams(params: any): URLSearchParams {
 
 // Another service version implements the initial one as interface.
 export class MockPhotoService implements PhotoService { // <2>
+  
+  searchEvent: EventEmitter<any> = new EventEmitter();
+
+  constructor( private http: Http){}
+
+  emitSearchEvent  (value) {
+    this.searchEvent.emit(value);
+  }
+
+  getSearchEmitter() {
+    return this.searchEvent;
+  }
+
+  search(params: PhotoSearchParams): Photo[]{
+      return photos.map(p => new Photo(p.id, p.title, p.year, p.place, p.rating, p.description, p.categories));
+  }
+
   getPhoto(id): Photo {
     // Code making an HTTP request to get actual photo details
     // would go here
@@ -120,6 +137,10 @@ export class MockPhotoService implements PhotoService { // <2>
     return reviews
         .filter(r => r.photoId === photoId)
         .map(r => new Review(r.id, r.photoId, new Date(r.timestamp), r.user, r.rating, r.comment));
+  }
+
+  getCategories(): string[] {
+    return ['home', 'garden', 'city', 'shop', 'holidays', 'sea', 'party'];
   }
 }
 

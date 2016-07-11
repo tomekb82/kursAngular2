@@ -9,7 +9,7 @@ if (webpack.ENV === 'production') {
   enableProdMode();
 }
 
-import ApplicationComponent  from "./components/application/application";
+import ApplicationComponent  from "./app/components/application/application";
 import {PHOTO_APP_SERVICES} from './app/services/services';
 import {WEATHER_URL_BASE, WEATHER_URL_SUFFIX, WeatherService} from './app/services/weather-service';
 //import {PhotoService} from "./services/photo-service";

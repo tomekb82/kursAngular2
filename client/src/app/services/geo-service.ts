@@ -11,7 +11,7 @@ export class GeoService {
     
 	constructor( private http: Http){}
 
-	getGeoIp(): Observable  {
+	getGeoIp(): Observable<any>  {
 		return this.http.get(this.baseURL)
 			.map(res => res.json());
  	}

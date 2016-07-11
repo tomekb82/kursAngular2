@@ -6,7 +6,7 @@ import {Observable, Subscriber} from 'rxjs/Rx';
 export class MessageService {
   constructor(private webSocket: WebSocketService) {}
 
-  watchPhoto(photoId: number): Observable {
+  watchPhoto(photoId: number): Observable<any> {
     let openSubscriber = Subscriber.create(
       () => this.webSocket.sendPhotoMessage({photoId: photoId}));
 

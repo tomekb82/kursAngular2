@@ -33,7 +33,7 @@ export default class SearchComponent {
 	searchTextarea: string = ""
 
   photoTitle: string;
-  photoYear: string;
+  photoYear: number;
 
   onSelectEvent({target}):void{
     this.searchPlace=target.value;
@@ -77,7 +77,7 @@ export default class SearchComponent {
   }
 
   getYearFromServer(place) {
-        this.searchYear = 12*Math.random().toFixed(4);
+        this.searchYear =  2014;//12*Math.random().toFixed(4);
         console.log(`The year for the ${place} is:` + this.searchYear );
   }
 

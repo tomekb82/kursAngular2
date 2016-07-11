@@ -2,7 +2,6 @@ import {Component, EventEmitter, Input, Output} from 'angular2/core'; // <1>
 
 @Component({
   template: require('./stars.html'),
-  directives: [NgFor],
   styles: [` .starrating { color: #d17581; }`],
   // inputs: ['rating', 'count']   // zamiast @Input
   selector: 'photo-stars'

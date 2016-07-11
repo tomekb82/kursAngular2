@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, ngFor} from 'angular2/core';
+import {Component, Input, Output, EventEmitter} from 'angular2/core';
 
 @Component({
   selector: 'PoleCombo',

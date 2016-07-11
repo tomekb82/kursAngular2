@@ -6,7 +6,7 @@ import 'rxjs/add/observable/empty';
 import {WeatherComponent} from './weather';
 import {WeatherService} from '../../services/weather-service';
 
-class MockWeatherService {
+class MockWeatherService extends WeatherService{
   getWeather() {
     return Observable.empty();
   }
@@ -15,6 +15,7 @@ class MockWeatherService {
 describe('WeatherComponent', () => {
   let component: WeatherComponent;
   let testComponentBuilder: TestComponentBuilder;
+  let service: WeatherService;
 
   beforeEachProviders(() => [
     TestComponentBuilder,
@@ -22,13 +23,14 @@ describe('WeatherComponent', () => {
     provide(WeatherService, {useClass: MockWeatherService})
   ]);
 
-  beforeEach(inject([TestComponentBuilder, WeatherComponent], (tcb, cmp) => {
+  beforeEach(inject([TestComponentBuilder, WeatherComponent, WeatherService], (tcb, cmp, ws) => {
     testComponentBuilder = tcb;
     component = cmp;
+    service = ws;
   }));
 
   it('is successfully instantiated', () => {
-    const app = new WeatherComponent();
+    const app = new WeatherComponent(service);
     expect(app instanceof WeatherComponent).toEqual(true);
   }); 
 

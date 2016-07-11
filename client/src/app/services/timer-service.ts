@@ -2,7 +2,7 @@ import {Observable} from 'rxjs/Rx';
 
 export class TimerObservableService{
 
-    getTime(): Observable{
+    getTime(): Observable<Date>{
 
         return new Observable(
             observer => {

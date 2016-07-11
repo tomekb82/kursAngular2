@@ -3,7 +3,7 @@ import {Pipe, PipeTransform} from 'angular2/core';
 @Pipe({name: 'temperaturePipe'})
 export class TemperaturePipe implements PipeTransform {
 
-    transform(value: any[], parameters: string[]): any {
+    transform(value: number, parameters: string[]): number {
 
         let fromTo: string = parameters[0];
 

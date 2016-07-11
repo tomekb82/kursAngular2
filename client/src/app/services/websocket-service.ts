@@ -16,7 +16,7 @@ export class WebSocketService {
     });
   }
 
-  createObservableSocketWithSubscriber(url: string, openSubscriber: Subscriber): Observable {
+  createObservableSocketWithSubscriber(url: string, openSubscriber: Subscriber): Observable<any> {
     this.ws = new WebSocket(url);
     return new Observable(observer => {
       this.ws.onmessage = event => observer.next(event.data);

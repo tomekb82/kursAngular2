@@ -34,9 +34,9 @@ export class SearchProcessorComponent implements OnChanges {
   }
 
   /** Invoked every time an @Input() property changes via the data binding */
-  ngOnChanges() {
-    console.log(`ngOnChanges: ${this.place}`);
-  }
+ // ngOnChanges() {
+ //   console.log(`ngOnChanges: ${this.place}`);
+ // }
 
   /* On Changes with params */
   ngOnChanges(changes: IChanges) {

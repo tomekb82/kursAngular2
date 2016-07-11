@@ -3,8 +3,6 @@ import {
   Control,
   ControlArray,
   ControlGroup,
-  FormGroup,
-  FormControl,
   CORE_DIRECTIVES,
   FORM_DIRECTIVES,
   NG_VALIDATORS,

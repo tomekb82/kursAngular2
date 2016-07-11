@@ -21,7 +21,7 @@ export class ValidationService {
 /**
  * Returns an Observable resolved with either a null or an error object.
  */
-static asyncPeselValidator(control: Control): Rx.Observable {
+static asyncPeselValidator(control: Control): Rx.Observable<any> {
   const value: string = control.value || '';
   const valid = value.match(/^\d{11}$/);
   return Rx.Observable

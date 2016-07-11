@@ -36,9 +36,9 @@ class PhotoParameterDirective {
         setInterval(() => {
 
             let photoParams: IPhotoParamaters = {
-               focus: (100*Math.random()).toFixed(2),
-               zoom: (100*Math.random()).toFixed(2),
-                pixels: (100*Math.random()).toFixed(2)
+               focus: parseInt((100*Math.random()).toFixed(2)),
+               zoom: parseInt((100*Math.random()).toFixed(2)),
+                pixels: parseInt((100*Math.random()).toFixed(2))
             };
 
             this.photoEmitter.emit(photoParams)
@@ -59,7 +59,7 @@ class PhotoParameterDirective {
     directives: [PhotoParameterDirective],
     encapsulation: ViewEncapsulation.None
 })
-export default class PhotoParametersComponent {
+class PhotoParametersComponent {
    focus: number;
    zoom: number;
    pixels: number;
@@ -135,7 +135,6 @@ export default class PhotoDetailComponent implements OnDeactivate {
       .subscribe(
         photo => {
           this.photo = photo;
-          this.currentMessage = "Test";
         },
         error => console.error(error));
 

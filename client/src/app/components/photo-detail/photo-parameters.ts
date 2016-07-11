@@ -1,5 +1,5 @@
 import {Component, ViewEncapsulation, Directive, Output, EventEmitter} from 'angular2/core';
-
+import {RouteParams} from 'angular2/router';
 
 interface IPhotoParamaters {
     focus: number,
@@ -17,9 +17,9 @@ class PhotoParameterDirective {
         setInterval(() => {
 
             let photoParams: IPhotoParamaters = {
- 				focus: (100*Math.random()).toFixed(2),
- 				zoom: (100*Math.random()).toFixed(2),
-                pixels: (100*Math.random()).toFixed(2)
+               focus: parseInt((100*Math.random()).toFixed(2)),
+               zoom: parseInt((100*Math.random()).toFixed(2)),
+                pixels: parseInt((100*Math.random()).toFixed(2))
             };
 
             this.photoEmitter.emit(photoParams)
@@ -49,8 +49,8 @@ export default class PhotoParametersComponent {
    }
 
    photoParamsHandler(event:IPhotoParamaters) {
-        this.focus = ${event.focus};
-        this.zoom = ${event.zoom};
-        this.pixels = ${event.pixels};
+        this.focus = event.focus;
+        this.zoom = event.zoom;
+        this.pixels = event.pixels;
     }
 }
