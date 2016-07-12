@@ -56,7 +56,7 @@ export default class HomeComponent {
     this.titleFilter.valueChanges
       .debounceTime(100)
       .subscribe(
-        value => this.filterCriteria = value,
+        value => console.log(value),//this.filterCriteria = value,
         error => console.error(error)
     );
   }

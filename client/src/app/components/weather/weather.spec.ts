@@ -6,7 +6,7 @@ import 'rxjs/add/observable/empty';
 import {WeatherComponent} from './weather';
 import {WeatherService} from '../../services/weather-service';
 
-class MockWeatherService extends WeatherService{
+class MockWeatherService /*extends WeatherService*/{
   getWeather() {
     return Observable.empty();
   }

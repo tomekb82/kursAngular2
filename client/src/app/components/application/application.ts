@@ -20,15 +20,15 @@ import ControlsComponent from '../../kontrolki/controls';
 @Component({
   selector: 'photo-app', // <1>
   template: require('./application.html'),
-  styles: require('./application.css'),
+  styles: [require('./application.css')],
   directives: [
    RouterOutlet,
-   FooterComponent,
+  FooterComponent,
    SearchComponent,
    NavbarComponent,
    HomeComponent,
 
-   PhotoDetailComponent,
+  PhotoDetailComponent,
    WeatherComponent,
    ChatComponent,
    PhotoMediatorComponent,

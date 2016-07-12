@@ -47,7 +47,7 @@ export class PhotoService {
     return this.searchEvent;
   }
 
-  constructor( private http: Http){}
+  constructor( protected http: Http){}
 
   /*
   getPhotos(): Photo[] {
@@ -105,11 +105,9 @@ function encodeParams(params: any): URLSearchParams {
 
 
 // Another service version implements the initial one as interface.
-export class MockPhotoService implements PhotoService { // <2>
+export class MockPhotoService {//{implements PhotoService { // <2>
   
   searchEvent: EventEmitter<any> = new EventEmitter();
-
-  constructor( private http: Http){}
 
   emitSearchEvent  (value) {
     this.searchEvent.emit(value);
@@ -120,7 +118,8 @@ export class MockPhotoService implements PhotoService { // <2>
   }
 
   search(params: PhotoSearchParams): Photo[]{
-      return photos.map(p => new Photo(p.id, p.title, p.year, p.place, p.rating, p.description, p.categories));
+      return photos.map(p => new Photo(p.id, p.title, p.year, p.place, 
+        p.rating, p.description, p.categories));
   }
 
   getPhoto(id): Photo {
@@ -131,12 +130,14 @@ export class MockPhotoService implements PhotoService { // <2>
       ["home"]);
   }
   getPhotos(): Photo[] {
-    return photos.map(p => new Photo(p.id, p.title, p.year, p.place, p.rating, p.description, p.categories));
+    return photos.map(p => new Photo(p.id, p.title, p.year, p.place, 
+      p.rating, p.description, p.categories));
   }
   getReviewsForPhoto(photoId: number): Review[] {
     return reviews
         .filter(r => r.photoId === photoId)
-        .map(r => new Review(r.id, r.photoId, new Date(r.timestamp), r.user, r.rating, r.comment));
+        .map(r => new Review(r.id, r.photoId, new Date(r.timestamp), 
+          r.user, r.rating, r.comment));
   }
 
   getCategories(): string[] {

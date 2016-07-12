@@ -33,7 +33,7 @@ export default class MessageSubscriberComponent {
       .subscribe(
         data => {
           this.newMessage = data;
-          this.newMessage.sendDate= Date.parse(data.sendDate);
+          //this.newMessage.sendDate= Date.parse(data.sendDate);
           console.log(this.newMessage);
         },
         err => console.log( err),

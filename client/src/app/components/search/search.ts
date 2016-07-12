@@ -18,7 +18,7 @@ import {SearchProcessorComponent} from './search-processor';
   providers: [FORM_PROVIDERS],
   directives: [CORE_DIRECTIVES, FORM_DIRECTIVES, LogDirective, SearchProcessorComponent],
   template: require('./search.html'),
-  styles: ['.textarea {height: 100px; width: 220px;}'],
+  styles: ['.textarea {height: 100px; width: 220px;}']
 })
 export default class SearchComponent {
   formModel: ControlGroup;
