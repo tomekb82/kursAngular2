@@ -13,6 +13,8 @@ import {PhotoService} from '../../services/photo-service';
 import {ValidationService} from '../../services/validation-service';
 import {SearchProcessorComponent} from './search-processor';
 
+import {Kw} from '../../kontrolki/kw';
+
 @Component({
   selector: 'photo-search',
   providers: [FORM_PROVIDERS],
@@ -49,8 +51,11 @@ export default class SearchComponent {
 
 	constructor(@Inject('IS_DEV_ENVIRONMENT') private isDev: boolean, 
       private photoService: PhotoService,
-      private fb: FormBuilder) {
+      private fb: FormBuilder,
+      private kw:Kw) {
 
+
+console.log(this.kw.pokaz());
     this.categories = this.photoService.getCategories();
     
     this.placeCtrl = new Control('');
